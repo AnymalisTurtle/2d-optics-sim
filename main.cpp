@@ -11,8 +11,10 @@ int main()
 
 
     Vector a(10, 10);
-    Vector b(200, 100);
+    Vector b(200, 130);
+    Vector c = (b-a).get_normal_2d();
     std::array line = line_from_vec(a, b);
+    std::array normal = line_from_vec(a + (b-a)*0.5, a + (b-a)*0.5 + c*100);
 
     line[0].color = sf::Color::Red;
     line[1].color = sf::Color::Cyan;
@@ -27,6 +29,7 @@ int main()
 
         window.clear();
         window.draw(line.data(), line.size(), sf::PrimitiveType::Lines);
+        window.draw(normal.data(), normal.size(), sf::PrimitiveType::Lines);
         window.display();
     }
 }
