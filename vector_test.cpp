@@ -19,8 +19,10 @@ int main(int argc, char *argv[]){
 
     vector a(1,3,0);
     vector b = a.get_normal_2d();
+    vector c(a,b);
     cout << "vector a: (" << a.x <<", "<< a.y <<", "<< a.z <<")\n"
-    << "vector b: (" << b.x <<", "<< b.y <<", "<< b.z <<")" << endl;
-    
+    << "vector b: (" << b.x <<", "<< b.y <<", "<< b.z <<")\n"
+    << "vector c: (" << c.x <<", "<< c.y <<", "<< c.z <<")" << endl;
+
     return 0;
 }
