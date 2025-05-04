@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-#include "basic_objects\vector.cpp"
+#include "basic_objects\Vector.cpp"
 
 int main()
 {
@@ -11,8 +11,8 @@ int main()
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
 
-    vector a(10, 10);
-    vector b(200, 100);
+    Vector a(10, 10);
+    Vector b(200, 100);
     std::array line = line_from_vec(a, b);
 
     line[0].color = sf::Color::Red;

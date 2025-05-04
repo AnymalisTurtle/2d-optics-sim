@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 
-class vector{
+class Vector{
     public:
     float x;
     float y;
@@ -11,19 +11,19 @@ class vector{
     bool is2d;
 
 
-    vector(float x_init, float y_init, float z_init){
+    Vector(float x_init, float y_init, float z_init){
         this->x = x_init;
         this->y = y_init;
         this->z = z_init;
         this->is2d = false;
     }
     //2d vector implementation
-    vector(float x_init, float y_init){
+    Vector(float x_init, float y_init){
         this->x = x_init;
         this->y = y_init;
         this->is2d = true;
     }
-    vector(vector start, vector end){
+    Vector(Vector start, Vector end){
         if (start.is2d && end.is2d){
             this->is2d = true;
         }else{
@@ -53,17 +53,17 @@ class vector{
     // vector-chains which define a body should always run ccw; normals should point outward
     // therefore the normal can be calculated for each segment of the vector chain individually
     // so far only working with 2d; z has to be zero
-    vector get_normal_2d(){
+    Vector get_normal_2d(){
         if (this->is2d){
             std::cerr << "Function not implemented for 3d vectors";
         }
-        vector normal(this->y, -this->x, 0);
+        Vector normal(this->y, -this->x, 0);
         normal.unit();
         return normal;
     }
 };
 
-std::array<sf::Vertex, 2> line_from_vec(vector p1, vector p2){
+std::array<sf::Vertex, 2> line_from_vec(Vector p1, Vector p2){
     std::array line = 
     {
         sf::Vertex{sf::Vector2f(p1.x, p1.y)},
