@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
-using namespace std;
+#include <SFML/Graphics.hpp>
+
 
 class vector{
     public:
@@ -45,7 +46,7 @@ class vector{
             this->y /= le;
             this->z /= le;
         }else{
-            cerr << "cannot unit zero-vector!";
+            std::cerr << "cannot unit zero-vector!";
         }
     }
 
@@ -54,10 +55,19 @@ class vector{
     // so far only working with 2d; z has to be zero
     vector get_normal_2d(){
         if (this->is2d){
-            cerr << "Function not implemented for 3d vectors";
+            std::cerr << "Function not implemented for 3d vectors";
         }
         vector normal(this->y, -this->x, 0);
         normal.unit();
         return normal;
     }
+};
+
+std::array<sf::Vertex, 2> line_from_vec(vector p1, vector p2){
+    std::array line = 
+    {
+        sf::Vertex{sf::Vector2f(p1.x, p1.y)},
+        sf::Vertex{sf::Vector2f(p2.x, p2.y)} 
+    };
+    return line;
 };
