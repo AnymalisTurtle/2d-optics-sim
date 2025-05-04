@@ -15,13 +15,17 @@ class Line{
     Line(Vector start, Vector end){
         this->p1 = start;
         this->p2 = end;
+        this->c1 = sf::Color::White;
+        this->c2 = sf::Color::White;
     };
-    Line(float start_x, float start_y, float end_x, float end_y){
+    Line(double start_x, double start_y, double end_x, double end_y){
         this->p1 = Vector(start_x, start_y);
         this->p2 = Vector(end_x, end_y);
+        this->c1 = sf::Color::White;
+        this->c2 = sf::Color::White;
     };
 
-    Line get_normal(float length = 30){
+    Line get_normal(double length = 50){
         // a + (b-a)*0.5
         Vector midpoint = p1 + (p2-p1)*0.5;
         Vector n = (p2-p1).get_normal_2d();
@@ -33,14 +37,14 @@ class Line{
     void set_color(sf::Color start_color, sf::Color end_color){
         this->c1 = start_color;
         this->c2 = end_color;
-    }
+    };
 
     void draw_as_primitive(sf::RenderWindow &window){
         std::array line = line_from_vec(p1, p2);
         line[0].color = c1;
         line[1].color = c2;
         window.draw(line.data(), line.size(), sf::PrimitiveType::Lines);
-    }
+    };
 };
-#define LINE 1
+#define LINE
 #endif

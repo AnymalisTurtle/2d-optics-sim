@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Vector.cpp"
 
+
 #ifndef UTIL
 //contains some utility functions
 // #creates a drawable line from vector objects for start and end points
@@ -12,5 +13,6 @@ std::array<sf::Vertex, 2> line_from_vec(Vector p1, Vector p2){
     };
     return line;
 };
-#define UTIL 1
+
+#define UTIL
 #endif
