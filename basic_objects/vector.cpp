@@ -3,13 +3,11 @@
 using namespace std;
 
 class vector{
-    private:
-    bool is2d;
-
     public:
     float x;
     float y;
     float z;
+    bool is2d;
 
 
     vector(float x_init, float y_init, float z_init){
@@ -23,6 +21,17 @@ class vector{
         this->x = x_init;
         this->y = y_init;
         this->is2d = true;
+    }
+    vector(vector start, vector end){
+        if (start.is2d && end.is2d){
+            this->is2d = true;
+        }else{
+            this->is2d = false;
+        }
+
+        this->x = end.x - start.x;
+        this->y = end.y - start.y;
+        this->z = end.z - start.z;
     }
     
     float length(){
