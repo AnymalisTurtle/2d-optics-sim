@@ -7,9 +7,8 @@ int main()
 
     sf::ContextSettings settings;
     settings.antiAliasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode({200, 200}), "SFML works!", sf::Style::Default, sf::State::Windowed, settings);
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode({200, 200}), "Get refracted", sf::Style::Default, sf::State::Windowed, settings);
+
 
     Vector a(10, 10);
     Vector b(200, 100);
@@ -27,7 +26,6 @@ int main()
         }
 
         window.clear();
-        window.draw(shape);
         window.draw(line.data(), line.size(), sf::PrimitiveType::Lines);
         window.display();
     }
