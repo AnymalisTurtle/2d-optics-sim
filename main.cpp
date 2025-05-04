@@ -1,6 +1,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "basic_objects\Vector.cpp"
+#include "basic_objects\Line.cpp"
+#include "basic_objects\Util.cpp"
+
 
 int main()
 {
@@ -12,12 +15,16 @@ int main()
 
     Vector a(10, 10);
     Vector b(200, 130);
-    Vector c = (b-a).get_normal_2d();
-    std::array line = line_from_vec(a, b);
-    std::array normal = line_from_vec(a + (b-a)*0.5, a + (b-a)*0.5 + c*100);
+    Line line(a, b);
+    // Vector c = (b-a).get_normal_2d();
+    // std::array line = line_from_vec(a, b);
+    // std::array normal = line_from_vec(a + (b-a)*0.5, a + (b-a)*0.5 + c*100);
+    Line normal = line.get_normal();
 
-    line[0].color = sf::Color::Red;
-    line[1].color = sf::Color::Cyan;
+    // line[0].color = sf::Color::Red;
+    // line[1].color = sf::Color::Cyan;
+    line.set_color(sf::Color::Red, sf::Color::Cyan);
+
 
     while (window.isOpen())
     {
@@ -28,8 +35,10 @@ int main()
         }
 
         window.clear();
-        window.draw(line.data(), line.size(), sf::PrimitiveType::Lines);
-        window.draw(normal.data(), normal.size(), sf::PrimitiveType::Lines);
+        // window.draw(line.data(), line.size(), sf::PrimitiveType::Lines);
+        // window.draw(normal.data(), normal.size(), sf::PrimitiveType::Lines);
+        line.draw_as_primitive(window);
+        normal.draw_as_primitive(window);
         window.display();
     }
 }
