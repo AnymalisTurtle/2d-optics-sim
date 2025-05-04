@@ -90,48 +90,48 @@ class Vector{
 
         if (angle_rad == 0){
             //+x
-            std::cout << "+x" << std::endl;
+            // std::cout << "+x" << std::endl;
             vec = Vector(1, 0);
         } else
         if (0 < angle_rad && angle_rad < PI/2) {
             //first quadrant
             vec = Vector(1, -1* std::tan(angle_rad));
-            std::cout << "first quadrant" << std::endl;
+            // std::cout << "first quadrant" << std::endl;
         }else
         if(angle_rad == PI/2 ) {
             //-y
             vec = Vector(0, -1);
-            std::cout << "-y" << std::endl;
+            // std::cout << "-y" << std::endl;
         } else
         if (PI/2 < angle_rad && angle_rad < PI) {
             //second quadrant
             vec = Vector( -1* std::tan(angle_rad-PI/2), -1);
-            std::cout << "second quadrant" << std::endl;
+            // std::cout << "second quadrant" << std::endl;
         } else
         if (angle_rad == PI) {
             //-x
             vec = Vector(-1, 0);
-            std::cout << "-x" << std::endl;
+            // std::cout << "-x" << std::endl;
         } else
         if (PI < angle_rad && angle_rad < PI*3/2) {
             //third quadrant
             vec = Vector(-1, std::tan(angle_rad-PI));
-            std::cout << "thrid quadrant" << std::endl;
+            // std::cout << "thrid quadrant" << std::endl;
         } else
         if (angle_rad == PI*3/2) {
             //+y
             vec = Vector(0, 1);
-            std::cout << "+y" << std::endl;
+            // std::cout << "+y" << std::endl;
         } else
         if (PI*3/2 < angle_rad && angle_rad < PI*2) {
             //fourth quadrant
             vec = Vector(std::tan(angle_rad-PI*3/2), 1);
-            std::cout << "fourth quadrant" << std::endl;
+            // std::cout << "fourth quadrant" << std::endl;
         }
-        std::cout << "From angle "<< angle_rad*360/(2*PI) << "°("<< angle_rad/PI <<"Pi) and length "<< length <<" Vector: (" << vec.x << ", " << vec.y << ")" << std::endl;
+        // std::cout << "From angle "<< angle_rad*360/(2*PI) << "°("<< angle_rad/PI <<"Pi) and length "<< length <<" Vector: (" << vec.x << ", " << vec.y << ")" << std::endl;
         vec.unit();
         Vector res = vec * length;
-        std::cout <<" Vector: (" << res.x << ", " << res.y << ")" << std::endl;
+        // std::cout <<" Vector: (" << res.x << ", " << res.y << ")" << std::endl;
         return res;
     };
 
@@ -143,7 +143,7 @@ class Vector{
             std::cerr << "Function not implemented for 3d vectors"<<std::endl;
         }
         double phi = this->get_angle_rad();
-        std::cout << "with x: " << x << " and y: " << y << " results the angle: " << phi*360/(2*PI) << "°" << std::endl;
+        // std::cout << "with x: " << x << " and y: " << y << " results the angle: " << phi*360/(2*PI) << "°" << std::endl;
         phi-=PI/2;
         if (phi >= 2*PI) phi -= 2*PI;
         else if (phi < 0) phi += 2*PI; 
