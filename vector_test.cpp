@@ -11,11 +11,16 @@ int main(int argc, char *argv[]){
     for (int i = 0; i < argc; i++){
         cout << i+1 << ": " << argv[i] << endl;
     }
-    cout << "\n\n";
+    cout << "\n####################\n" <<endl;
 
     // constructing an example vector
-    vector vec(1,2,3);
-    cout << "vector coord: " << "("<< vec.x <<", "<< vec.y <<", "<< vec.z <<")"<<endl;
+    vector vec1(1,2,3);
+    cout << "vector coord: " << "("<< vec1.x <<", "<< vec1.y <<", "<< vec1.z <<")"<<endl;
 
+    vector a(1,3,0);
+    vector b = a.get_normal_2d();
+    cout << "vector a: (" << a.x <<", "<< a.y <<", "<< a.z <<")\n"
+    << "vector b: (" << b.x <<", "<< b.y <<", "<< b.z <<")" << endl;
+    
     return 0;
 }
