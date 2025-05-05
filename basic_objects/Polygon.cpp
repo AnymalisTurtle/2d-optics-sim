@@ -11,6 +11,7 @@ class Polygon: public Interactable{
     const char *type = 0;
     int linecount = 0;
     Interactable* last_element = 0;
+    double refraction_index = 1.2;
 
     public:
     Polygon(Vector points[], int point_count, Interactable* last, const char* type ="reflect", sf::Color color = sf::Color::White){
@@ -63,5 +64,9 @@ class Polygon: public Interactable{
     const char* get_type(){
         return type;
     };
+
+    double get_refract_in(){
+        return refraction_index;
+    }
 
 };

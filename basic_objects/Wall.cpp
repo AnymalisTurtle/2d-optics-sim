@@ -12,6 +12,7 @@ class Wall: public Interactable{
     sf::Color col1;
     sf::Color col2;
     Interactable* last_element = 0;
+    double refraction_index = 1.6;
 
     public:
     Wall(Vector p1, Vector p2, Interactable* last, const char* type ="reflect", sf::Color color = sf::Color::White){
@@ -58,6 +59,10 @@ class Wall: public Interactable{
     const char* get_type(){
         return type;
     };
+
+    double get_refract_in(){
+        return refraction_index;
+    }
 
 };
 

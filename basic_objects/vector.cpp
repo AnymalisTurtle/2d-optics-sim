@@ -85,9 +85,9 @@ class Vector{
 
     Vector Vector_angle_length(double angle_rad, double length){
         Vector vec;
-        while (angle_rad >= PI*2) angle_rad -= PI*2;
-        while (angle_rad < 0) angle_rad += PI*2;
-
+        while (angle_rad >= PI*2) {angle_rad -= PI*2;};
+        while (angle_rad < 0) {angle_rad += PI*2;};
+        // std::cout << "angle_length angle: "<<angle_rad/PI<<"PI"<<std::endl;
         if (angle_rad == 0){
             //+x
             // std::cout << "+x" << std::endl;

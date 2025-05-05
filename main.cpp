@@ -20,8 +20,8 @@ int main()
     Vector b(350, 600);
     Vector c(650, 530);
     Wall middle(
-        Vector(500,0),
-        Vector(500, 1000),
+        Vector(500, 950),
+        Vector(1000, 1000),
         0
     );
     Wall bottom(
@@ -31,7 +31,7 @@ int main()
     );
 
     Vector triPoints[] = {a,b,c};
-    Polygon tri(triPoints, 3, &bottom, "reflect", sf::Color(200, 200, 255));
+    Polygon tri(triPoints, 3, &bottom, "refract", sf::Color(200, 200, 255));
 
     Vector octPoints[] = {
         Vector(600,800),
@@ -43,7 +43,7 @@ int main()
         Vector(700,600),
         Vector(600,700)     
     };
-    Polygon oct(octPoints, 8, &tri, "reflect", sf::Color::Magenta);
+    Polygon oct(octPoints, 8, &tri, "refract", sf::Color::Magenta);
  
 
 
@@ -68,11 +68,11 @@ int main()
     // angleline.set_color(sf::Color::Magenta, sf::Color::Magenta);
 
 
-    // PointSource ps(
-    //     Vector(750, 500),
-    //     30,
-    //     (Interactable*) &oct
-    // );
+    PointSource ps(
+        Vector(400, 500),
+        30,
+        (Interactable*) &oct
+    );
     PointSource ps2(
         Vector(700, 500),
         5,
@@ -90,11 +90,17 @@ int main()
         }
         
         // ps2 = PointSource(
-        //     Vector(450+160*std::cos(dy), 550+150*std::sin(dy)),
-        //     5,
+        //     Vector(450+160*std::cos(dy), 600+150*std::sin(dy)),
+        //     20,
         //     (Interactable*) &oct,
         //     std::sin(dy/10)*2*PI
         // );
+        ps2 = PointSource(
+            Vector(250, 520),
+            40,
+            (Interactable*) &oct,
+            std::sin(dy/10)*2*PI
+        );
 
         window.clear();
         // window.draw(line.data(), line.size(), sf::PrimitiveType::Lines);
@@ -113,6 +119,6 @@ int main()
         // ps.draw(window);
         ps2.draw(window);
         window.display();
-        dy+=0.0001;
+        dy+=0.00002;
     }
 }

@@ -58,8 +58,8 @@ class Ray{
                     }
                     if (x>0 && x<1){
                         //intersection!
-                        //only store this if it is closer (=x smaller then previous hits)
-                        if (y_hit < 0 || y<y_hit){
+                        //only store this if it is closer (=x smaller then previous hits) but the hit is also suff. away (avoid hitting same obstacle multiple times)
+                        if ((y_hit < 0 || y<y_hit) && (this->v*y).length()>2){
                             y_hit = y;
                             hit = coll_obj;
                             hit_line = l;
@@ -102,6 +102,8 @@ class Ray{
                 if (! hit == 0) {
                     // std::cout << "hit_type of "<< hit <<" : " << hit->get_type() << std::endl;
                     if (hit->get_type() == "absorb");
+
+
                     else if (hit->get_type() == "reflect"){
                         double incidence = v.get_angle_rad() - (this->v * -1).get_angle_rad();
                         Vector outsidence = v.Vector_angle_length((this->v * -1).get_angle_rad() + 2*incidence, 1);
@@ -109,8 +111,29 @@ class Ray{
                         this->child = (Ray*)malloc(sizeof(Ray));
                         *child = Ray(this->end, outsidence, (this->recursion_depth)+1, this, c2, sf::Color(c2.r-18, c2.g-20, c2.b-20));
                         child->trace(pass_on_col_obj);
-                    }else if (hit->get_type() == "refract"){
 
+
+                    }else if (hit->get_type() == "refract"){
+                        if (is_incoming){
+                            double incidence = PI + v.get_angle_rad() - this->v.get_angle_rad();
+                            double k = std::max((double)-0.999999, std::min((double)0.999999, 1/hit->get_refract_in() * std::sin(incidence)));
+                            double outsidence = std::asin(k);
+                            // std::cout << "incidence: "<<incidence<<"    outsidence: "<<outsidence<<std::endl;
+                            Vector refracd = end.Vector_angle_length(PI + v.get_angle_rad() - outsidence, 1);
+                            this->child = (Ray*)malloc(sizeof(Ray));
+                            *child = Ray(this->end, refracd, (this->recursion_depth)+1, this, c2, sf::Color(c2.r, c2.g-10, c2.b-10));
+                            child->trace(pass_on_col_obj);
+                        } else {
+                            double incidence = (v).get_angle_rad() - this->v.get_angle_rad();
+                            double k = std::max((double)-0.999999, std::min((double)0.999999, hit->get_refract_in() * std::sin(incidence)));
+                            double outsidence =  std::asin(k);
+                            // std::cout << "incidence: "<<incidence/PI<<"Pi    outsidence: "<<outsidence/PI<<"PI    normal angle: "<<v.get_angle_rad()/PI<<"PI"<<std::endl;
+                            Vector refracd = end.Vector_angle_length(v.get_angle_rad() - outsidence, 1);
+                            // std::cout << "refracd: ("<<refracd.x<<", "<<refracd.y<<")   end: ("<<end.x<<", "<<end.y<<")"<<std::endl;
+                            this->child = (Ray*)malloc(sizeof(Ray));
+                            *child = Ray(this->end, refracd, (this->recursion_depth)+1, this, c2, sf::Color(c2.r, c2.g-10, c2.b-10));
+                            child->trace(pass_on_col_obj);
+                        }
                     }
                 }
                 return true;
