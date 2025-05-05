@@ -12,7 +12,7 @@ class PointSource: public Emitter{
     Ray * rays = 0;
 
     public:
-    PointSource(Vector origin, int number_of_rays, Interactable * obj, int obj_count, double length_of_rays = 500){
+    PointSource(Vector origin, int number_of_rays, Interactable * obj, double length_of_rays = 500){
         this->origin = origin;
         this->ray_count = number_of_rays;
         this->ray_length = length_of_rays;
@@ -21,7 +21,7 @@ class PointSource: public Emitter{
         for (int i=0; i<ray_count; i++){
             Vector v = origin.Vector_angle_length(PI*2*i/ray_count, 1);
             Ray r(origin, v);
-            r.trace(obj, obj_count);
+            r.trace(obj);
             rays[i] = r;
             // std::cout<<"added ray to array"<<std::endl;
         }

@@ -20,19 +20,21 @@ int main()
     Vector c(650, 530);
     Wall middle(
         Vector(500,0),
-        Vector(500, 1000)
+        Vector(500, 1000),
+        0
     );
     Wall bottom(
         Vector(0,800),
-        Vector(500, 950)
+        Vector(500, 950),
+        &middle
     );
-    Wall obj[2] = {middle, bottom};
-    std::cout<<"address/size of first wall: "<<&obj[0]<<"/"<<sizeof(obj[0])<<std::endl;
-    std::cout<<"address/size of second wall: "<<&obj[1]<<"/"<<sizeof(obj[1])<<std::endl;
+    // Wall obj[2] = {middle, bottom};
+    // std::cout<<"address/size of first wall: "<<&obj[0]<<"/"<<sizeof(obj[0])<<std::endl;
+    // std::cout<<"address/size of second wall: "<<&obj[1]<<"/"<<sizeof(obj[1])<<std::endl;
     PointSource ps(
         Vector(100, 100),
         30,
-        (Interactable*) &obj,
+        (Interactable*) &bottom,
         2
     );// std::cout<<"ps constructed"<<std::endl;
 

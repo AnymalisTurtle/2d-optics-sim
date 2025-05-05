@@ -9,13 +9,23 @@ class Wall: public Interactable{
     Line *lines = 0;
     const char *type = 0;
     int linecount = 1;
+    sf::Color col1;
+    sf::Color col2;
+    Interactable* last_element = 0;
 
     public:
-    Wall(Vector p1, Vector p2, const char* type ="absorb"){
+    Wall(Vector p1, Vector p2, Interactable* last, const char* type ="absorb", sf::Color color = sf::Color::White){
         lines = new Line [1];
         lines[0].set_points(p1, p2);
         this->type = type;
+        this->col1 = color;
+        this->col2 = color;
+        this->last_element = last;
     };
+
+    Interactable* get_last_element(){
+        return last_element;
+    }
 
     int get_linecount(){
         return linecount;
@@ -31,8 +41,17 @@ class Wall: public Interactable{
         return sizeof(*this);
     }
 
+    void set_color(sf::Color start_color, sf::Color end_color){
+        this->col1 = start_color;
+        this->col2 = end_color;
+    };
+    void set_color(sf::Color color){
+        this->col1 = color;
+        this->col2 = color;
+    };
+
     void draw(sf::RenderWindow &window){
-        lines->set_color(sf::Color::White);
+        lines->set_color(col1, col2);
         lines->draw_as_primitive(window);
     }
 

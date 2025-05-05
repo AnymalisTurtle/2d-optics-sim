@@ -7,6 +7,7 @@ class Interactable{
     Line * lines = 0;
     int vertex_count;
     char* type;
+    Interactable * last_element=0;
 
     public:
     // Interactable(int number_of_vertives, char* interact_type = "boundary"){
@@ -21,6 +22,7 @@ class Interactable{
         return type;
     };
     virtual size_t get_size() = 0;
+    virtual Interactable* get_last_element() = 0;
 
 };
 #define INTERACTABLE
