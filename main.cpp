@@ -35,8 +35,11 @@ int main()
     Vector angled = a.Vector_angle_length(PI*2*113.199/360, 200);
 
     Line line1(a, b);
+    Wall l1(a, b, &bottom);
     Line line2(b, c);
+    Wall l2(b, c, &l1);
     Line line3(c, a);
+    Wall l3(c, a, &l2);
 
     Line angleline(b, angled+b);
 
@@ -53,12 +56,12 @@ int main()
     PointSource ps(
         Vector(100, 100),
         30,
-        (Interactable*) &bottom
+        (Interactable*) &l3
     );
     PointSource ps2(
         Vector(700, 500),
         30,
-        (Interactable*) &bottom
+        (Interactable*) &l3
     );
 
     double dy =0;
@@ -74,7 +77,7 @@ int main()
         ps2 = PointSource(
             Vector(600+150*std::cos(dy), 500+50*std::sin(dy)),
             30,
-            (Interactable*) &bottom
+            (Interactable*) &l3
         );
 
         window.clear();
