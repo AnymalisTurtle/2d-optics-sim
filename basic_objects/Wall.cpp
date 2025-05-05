@@ -14,7 +14,7 @@ class Wall: public Interactable{
     Interactable* last_element = 0;
 
     public:
-    Wall(Vector p1, Vector p2, Interactable* last, const char* type ="absorb", sf::Color color = sf::Color::White){
+    Wall(Vector p1, Vector p2, Interactable* last, const char* type ="reflect", sf::Color color = sf::Color::White){
         lines = new Line [1];
         lines[0].set_points(p1, p2);
         this->type = type;
@@ -53,8 +53,11 @@ class Wall: public Interactable{
     void draw(sf::RenderWindow &window){
         lines->set_color(col1, col2);
         lines->draw_as_primitive(window);
-    }
+    };
 
+    const char* get_type(){
+        return type;
+    };
 
 };
 

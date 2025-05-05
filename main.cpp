@@ -60,7 +60,7 @@ int main()
     );
     PointSource ps2(
         Vector(700, 500),
-        30,
+        5,
         (Interactable*) &l3
     );
 
@@ -75,10 +75,10 @@ int main()
         }
         
         ps2 = PointSource(
-            Vector(600+150*std::cos(dy), 500+50*std::sin(dy)),
-            30,
+            Vector(450+160*std::cos(dy), 550+150*std::sin(dy)),
+            5,
             (Interactable*) &l3,
-            dy/5
+            std::sin(dy/10)*2*PI
         );
 
         window.clear();
@@ -87,13 +87,13 @@ int main()
         line1.draw_as_primitive(window);
         line2.draw_as_primitive(window);
         line3.draw_as_primitive(window);
-        normal1.draw_as_primitive(window);
-        normal2.draw_as_primitive(window);
-        normal3.draw_as_primitive(window);
+        // normal1.draw_as_primitive(window);
+        // normal2.draw_as_primitive(window);
+        // normal3.draw_as_primitive(window);
         // angleline.draw_as_primitive(window);
         middle.draw(window);
         bottom.draw(window);
-        ps.draw(window);
+        // ps.draw(window);
         ps2.draw(window);
         window.display();
         dy+=0.0001;

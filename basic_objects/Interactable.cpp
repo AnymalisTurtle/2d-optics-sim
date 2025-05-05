@@ -18,9 +18,7 @@ class Interactable{
 
     virtual Line *get_line(int index) = 0;
     virtual int get_linecount() = 0;
-    char* get_type(){
-        return type;
-    };
+    virtual const char* get_type() = 0;
     virtual size_t get_size() = 0;
     virtual Interactable* get_last_element() = 0;
 
