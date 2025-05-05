@@ -50,7 +50,7 @@ int main()
     line1.set_color(sf::Color::Red, sf::Color::Cyan);
     line2.set_color(sf::Color::Cyan, sf::Color::Green);
     line3.set_color(sf::Color::Green, sf::Color::Red);
-    angleline.set_color(sf::Color::Magenta, sf::Color::Magenta);
+    // angleline.set_color(sf::Color::Magenta, sf::Color::Magenta);
 
 
     PointSource ps(
@@ -77,7 +77,8 @@ int main()
         ps2 = PointSource(
             Vector(600+150*std::cos(dy), 500+50*std::sin(dy)),
             30,
-            (Interactable*) &l3
+            (Interactable*) &l3,
+            dy/5
         );
 
         window.clear();
