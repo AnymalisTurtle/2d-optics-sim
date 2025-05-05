@@ -41,7 +41,7 @@ int main()
     Line line3(c, a);
     Wall l3(c, a, &l2);
 
-    Line angleline(b, angled+b);
+    // Line angleline(b, angled+b);
 
     Line normal1 = line1.get_normal();
     Line normal2 = line2.get_normal();
@@ -89,7 +89,7 @@ int main()
         normal1.draw_as_primitive(window);
         normal2.draw_as_primitive(window);
         normal3.draw_as_primitive(window);
-        angleline.draw_as_primitive(window);
+        // angleline.draw_as_primitive(window);
         middle.draw(window);
         bottom.draw(window);
         ps.draw(window);
