@@ -3,6 +3,8 @@
 #include "basic_objects\Vector.cpp"
 #include "basic_objects\Line.cpp"
 #include "basic_objects\Util.cpp"
+#include "basic_objects\Wall.cpp"
+#include "basic_objects\PointSource.cpp"
 
 
 int main()
@@ -16,6 +18,17 @@ int main()
     Vector a(310, 400);
     Vector b(350, 600);
     Vector c(650, 530);
+    Wall middle(
+        Vector(500,0),
+        Vector(500, 1000)
+    );
+    PointSource ps(
+        Vector(100, 100),
+        30,
+        &middle,
+        1
+    );// std::cout<<"ps constructed"<<std::endl;
+
 
     Vector angled = a.Vector_angle_length(PI*2*113.199/360, 200);
 
@@ -58,6 +71,8 @@ int main()
         normal2.draw_as_primitive(window);
         normal3.draw_as_primitive(window);
         angleline.draw_as_primitive(window);
+        middle.draw(window);
+        ps.draw(window);
         window.display();
     }
 }
