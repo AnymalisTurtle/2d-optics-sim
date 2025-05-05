@@ -17,12 +17,14 @@ class Ray{
     sf::Color c2;
 
     public:
-    Ray(Vector origin, Vector direction, int recursion_depth = 0, Ray *parent = 0, sf::Color col1 = sf::Color(256, 256, 256), sf::Color col2 = sf::Color(236, 226, 226)){
+    Ray(Vector origin, Vector direction, int recursion_depth = 0, Ray *parent = 0, sf::Color col1 = sf::Color(255, 255, 255), sf::Color col2 = sf::Color(237, 235, 235)){
         this->u = origin;
         this->v = direction;
         this->recursion_depth = recursion_depth;
         // std::cout << "constructing with recursion_depth: " << this->recursion_depth <<std::endl;
         this->parent = parent;
+        this->c1 = col1;
+        this->c2 = col2;
     };
     Ray(){
         u=Vector(0,0);
@@ -95,7 +97,7 @@ class Ray{
                         Vector outsidence = v.Vector_angle_length((this->v * -1).get_angle_rad() + 2*incidence, 1);
                         // std::cout << "with incidence " << incidence/PI << "PI and vector (" << outsidence.x << ", " << outsidence.y << ") creating new ray." << std::endl;
                         this->child = (Ray*)malloc(sizeof(Ray));
-                        *child = Ray(this->end, outsidence, (this->recursion_depth)+1, this, c2, sf::Color(c2.r-30, c2.g-40, c2.b-40));
+                        *child = Ray(this->end, outsidence, (this->recursion_depth)+1, this, c2, sf::Color(c2.r-18, c2.g-20, c2.b-20));
                         child->trace(pass_on_col_obj);
                     }else if (hit->get_type() == "refract"){
 
