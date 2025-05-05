@@ -28,15 +28,8 @@ int main()
         Vector(500, 950),
         &middle
     );
-    // Wall obj[2] = {middle, bottom};
-    // std::cout<<"address/size of first wall: "<<&obj[0]<<"/"<<sizeof(obj[0])<<std::endl;
-    // std::cout<<"address/size of second wall: "<<&obj[1]<<"/"<<sizeof(obj[1])<<std::endl;
-    PointSource ps(
-        Vector(100, 100),
-        30,
-        (Interactable*) &bottom,
-        2
-    );// std::cout<<"ps constructed"<<std::endl;
+
+ 
 
 
     Vector angled = a.Vector_angle_length(PI*2*113.199/360, 200);
@@ -46,21 +39,23 @@ int main()
     Line line3(c, a);
 
     Line angleline(b, angled+b);
-    // Vector c = (b-a).get_normal_2d();
-    // std::array line = line_from_vec(a, b);
-    // std::array normal = line_from_vec(a + (b-a)*0.5, a + (b-a)*0.5 + c*100);
 
     Line normal1 = line1.get_normal();
     Line normal2 = line2.get_normal();
     Line normal3 = line3.get_normal();
 
-    // line[0].color = sf::Color::Red;
-    // line[1].color = sf::Color::Cyan;
     line1.set_color(sf::Color::Red, sf::Color::Cyan);
     line2.set_color(sf::Color::Cyan, sf::Color::Green);
     line3.set_color(sf::Color::Green, sf::Color::Red);
     angleline.set_color(sf::Color::Magenta, sf::Color::Magenta);
 
+
+    PointSource ps(
+        Vector(100, 100),
+        30,
+        (Interactable*) &bottom,
+        2
+    );// std::cout<<"ps constructed"<<std::endl;
 
     while (window.isOpen())
     {
