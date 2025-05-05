@@ -43,9 +43,19 @@ class Ray{
                 Vector a = l->get_a();
                 Vector b = l->get_b();
                 //a+x*b = u+y*v
-                double y = (u.x - a.x - (b.x/b.y) * (u.y - a.y)) / (v.y * (b.x/b.y) - v.x);
+                double y; double x;
+                if (b.y==0){
+                    if(v.y==0) continue;
+                    y = (a.y - u.y) / v.y;
+                }else{
+                    y = (u.x - a.x - (b.x/b.y) * (u.y - a.y)) / (v.y * (b.x/b.y) - v.x);
+                }
                 if (y>0){
-                    double x = (u.y - a.y + y * v.y) / b.y;
+                    if(b.y==0){
+                        x = (u.x - a.x + y * v.x) / b.x;
+                    }else{
+                        x = (u.y - a.y + y * v.y) / b.y;
+                    }
                     if (x>0 && x<1){
                         //intersection!
                         //only store this if it is closer (=x smaller then previous hits)
