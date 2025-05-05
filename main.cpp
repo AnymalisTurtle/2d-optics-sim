@@ -22,11 +22,18 @@ int main()
         Vector(500,0),
         Vector(500, 1000)
     );
+    Wall bottom(
+        Vector(0,800),
+        Vector(500, 950)
+    );
+    Wall obj[2] = {middle, bottom};
+    std::cout<<"address/size of first wall: "<<&obj[0]<<"/"<<sizeof(obj[0])<<std::endl;
+    std::cout<<"address/size of second wall: "<<&obj[1]<<"/"<<sizeof(obj[1])<<std::endl;
     PointSource ps(
         Vector(100, 100),
         30,
-        &middle,
-        1
+        (Interactable*) &obj,
+        2
     );// std::cout<<"ps constructed"<<std::endl;
 
 
@@ -72,6 +79,7 @@ int main()
         normal3.draw_as_primitive(window);
         angleline.draw_as_primitive(window);
         middle.draw(window);
+        bottom.draw(window);
         ps.draw(window);
         window.display();
     }

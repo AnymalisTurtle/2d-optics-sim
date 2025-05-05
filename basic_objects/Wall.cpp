@@ -28,7 +28,7 @@ class Wall: public Interactable{
 
     size_t get_size(){
         // std::cout<<"retrieveing size"<<std::endl;
-        return sizeof(this);
+        return sizeof(*this);
     }
 
     void draw(sf::RenderWindow &window){

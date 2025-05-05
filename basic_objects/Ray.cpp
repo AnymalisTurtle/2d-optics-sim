@@ -28,15 +28,15 @@ class Ray{
         int y_hit = -1;
         Interactable *hit = 0;
         while (n < obj_count){
-            // std::cout<<"enter while with n="<<n<<std::endl;
+            std::cout<<"enter while with n="<<n<<std::endl;
             for (int i=0; i<coll_obj->get_linecount(); i++){
                 // std::cout<<"enter for with i="<<i<<std::endl;
                 Line *l = coll_obj->get_line(i);
-                // std::cout<<"line gotten: "<<l<<std::endl;
+                std::cout<<"line gotten: "<<l<<std::endl;
                 Vector a = l->get_a();
                 Vector b = l->get_b();
                 //a+x*b = u+y*v
-                // std::cout<<"solving linear sys"<<std::endl;
+                std::cout<<"solving linear sys"<<std::endl;
                 double y = (u.x - a.x - (b.x/b.y) * (u.y - a.y)) / (v.y * (b.x/b.y) - v.x);
                 if (y>0){
                     double x = (u.y - a.y + y * v.y) / b.y;
@@ -52,8 +52,11 @@ class Ray{
 
                 }//ray cannot travel backwards
             }
-            coll_obj += coll_obj->get_size(); //advance pointer by object size
-            // std::cout<<"pointer advanced"<<std::endl;
+            std::uintptr_t size = coll_obj->get_size();
+            std::cout<<"advancing pointer("<<coll_obj<<") by "<<size<<std::endl;
+            coll_obj = reinterpret_cast<Interactable*>(reinterpret_cast<std::uintptr_t>(coll_obj) + size); //advance pointer by object size
+            std::cout<<"new pointer: "<<coll_obj<<std::endl;
+            
             n++;    //n presents overrunning memory limits
         }
         if (y_hit < 0){
