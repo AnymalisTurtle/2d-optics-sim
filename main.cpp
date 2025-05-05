@@ -53,9 +53,15 @@ int main()
     PointSource ps(
         Vector(100, 100),
         30,
-        (Interactable*) &bottom,
-        2
-    );// std::cout<<"ps constructed"<<std::endl;
+        (Interactable*) &bottom
+    );
+    PointSource ps2(
+        Vector(700, 500),
+        30,
+        (Interactable*) &bottom
+    );
+
+    double dy =0;
 
     while (window.isOpen())
     {
@@ -65,6 +71,12 @@ int main()
                 window.close();
         }
         
+        ps2 = PointSource(
+            Vector(600+150*std::cos(dy), 500+50*std::sin(dy)),
+            30,
+            (Interactable*) &bottom
+        );
+
         window.clear();
         // window.draw(line.data(), line.size(), sf::PrimitiveType::Lines);
         // window.draw(normal.data(), normal.size(), sf::PrimitiveType::Lines);
@@ -78,6 +90,8 @@ int main()
         middle.draw(window);
         bottom.draw(window);
         ps.draw(window);
+        ps2.draw(window);
         window.display();
+        dy+=0.0001;
     }
 }
