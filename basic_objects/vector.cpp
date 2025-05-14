@@ -85,9 +85,9 @@ class Vector{
 
     Vector Vector_angle_length(double angle_rad, double length){
         Vector vec;
-        if (angle_rad >= PI*2) angle_rad -= PI*2;
-        else if (angle_rad < 0) angle_rad += PI*2;
-
+        while (angle_rad >= PI*2) {angle_rad -= PI*2;};
+        while (angle_rad < 0) {angle_rad += PI*2;};
+        // std::cout << "angle_length angle: "<<angle_rad/PI<<"PI"<<std::endl;
         if (angle_rad == 0){
             //+x
             // std::cout << "+x" << std::endl;
@@ -140,7 +140,7 @@ class Vector{
     // so far only working with 2d; z has to be zero
     Vector get_normal_2d(){
         if (!(this->is2d)){
-            std::cerr << "Function not implemented for 3d vectors"<<std::endl;
+            // std::cerr << "Function not implemented for 3d vectors"<<std::endl;
         }
         double phi = this->get_angle_rad();
         // std::cout << "with x: " << x << " and y: " << y << " results the angle: " << phi*360/(2*PI) << "°" << std::endl;
