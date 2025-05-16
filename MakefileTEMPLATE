@@ -1,0 +1,19 @@
+all: compile link
+
+run: compile link clean 
+	.\outs\main.exe
+
+debug: compile linkDebug clean
+	.\outs\main.exe
+
+compile:
+	g++ -c main.cpp -I"[SFML Include folder]" -DSFML_STATIC
+
+link:
+	g++ main.o -o ".\\outs\\main" -L"[SFML lib folder]" -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 -mwindows
+
+linkDebug:
+	g++ main.o -o ".\\outs\\main" -L"[SFML lib folder]" -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32
+
+clean:
+	rm -f main *.o
