@@ -12,12 +12,13 @@ class Polygon: public Interactable{
     int linecount = 0;
     Interactable* last_element = 0;
     double refraction_index = 1.2;
+    SurfaceProperty *sp;
+
 
     public:
-    Polygon(Vector points[], int point_count, Interactable* last, const char* type ="reflect", sf::Color color = sf::Color::White){
+    Polygon(Vector points[], int point_count, Interactable* last, double reflect = 1, double refract = 0, sf::Color color = sf::Color::White){
         linecount = point_count;
         lines = new Line [linecount];
-        this->type = type;
         this->last_element = last;
         Vector p1;
         Vector p2;
@@ -29,6 +30,13 @@ class Polygon: public Interactable{
         }
         lines[linecount-1] = Line(p2, points[0]);
         lines[linecount-1].set_color(color);
+
+        this->sp = new SurfaceProperty(reflect, refract);
+    };
+
+    ~Polygon(){
+        delete this->lines;
+        delete this->sp;
     };
 
     Interactable* get_last_element(){
@@ -61,11 +69,11 @@ class Polygon: public Interactable{
         }
     };
 
-    const char* get_type(){
-        return type;
-    };
+    SurfaceProperty* get_SurfaceProperty(){
+        return this->sp;
+    }
 
-    double get_refract_in(){
+    double get_refraction_index(){
         return refraction_index;
     }
 

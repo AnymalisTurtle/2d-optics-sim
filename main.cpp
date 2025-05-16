@@ -31,19 +31,19 @@ int main()
     );
 
     Vector triPoints[] = {a,b,c};
-    Polygon tri(triPoints, 3, &bottom, "refract", sf::Color(200, 200, 255));
+    Polygon tri(triPoints, 3, &bottom, 0.2, 0.8, sf::Color(200, 200, 255));
 
-    Vector octPoints[] = {
-        Vector(600,800),
-        Vector(700,900),
-        Vector(800,900),
-        Vector(900,800),
-        Vector(900,700),
-        Vector(800,600),
-        Vector(700,600),
-        Vector(600,700)     
-    };
-    Polygon oct(octPoints, 8, &tri, "refract", sf::Color::Magenta);
+    // Vector octPoints[] = {
+    //     Vector(600,800),
+    //     Vector(700,900),
+    //     Vector(800,900),
+    //     Vector(900,800),
+    //     Vector(900,700),
+    //     Vector(800,600),
+    //     Vector(700,600),
+    //     Vector(600,700)     
+    // };
+    // Polygon oct(octPoints, 8, &tri, 1, 0, sf::Color::Magenta);
  
 
 
@@ -71,12 +71,12 @@ int main()
     PointSource ps(
         Vector(400, 500),
         30,
-        (Interactable*) &oct
+        (Interactable*) &tri
     );
     PointSource ps2(
         Vector(700, 500),
         5,
-        (Interactable*) &oct
+        (Interactable*) &tri
     );
 
     double dy =0;
@@ -98,11 +98,21 @@ int main()
         ps2 = PointSource(
             Vector(250, 520),
             40,
-            (Interactable*) &oct,
+            (Interactable*) &tri,
             std::sin(dy/10)*2*PI
         );
 
         window.clear();
+
+/*#####################################################
+~~~~~~~~~~~~~~~~~~~~DRAWING SOURCES~~~~~~~~~~~~~~~~~~~~
+#####################################################*/
+       // ps.draw(window);
+        ps2.draw(window);
+
+/*#####################################################
+~~~~~~~~~~~~~~~~~~~~DRAWING SHAPES~~~~~~~~~~~~~~~~~~~~~
+#####################################################*/
         // window.draw(line.data(), line.size(), sf::PrimitiveType::Lines);
         // window.draw(normal.data(), normal.size(), sf::PrimitiveType::Lines);
         // line1.draw_as_primitive(window);
@@ -115,9 +125,7 @@ int main()
         middle.draw(window);
         bottom.draw(window);
         tri.draw(window);
-        oct.draw(window);
-        // ps.draw(window);
-        ps2.draw(window);
+        // oct.draw(window);
         window.display();
         dy+=0.00002;
     }

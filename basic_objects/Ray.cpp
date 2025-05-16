@@ -10,7 +10,8 @@ class Ray{
     Vector u;
     Vector v;
     Vector end;
-    Ray *child = 0;
+    Ray *child_reflected = 0;
+    Ray *child_refracted = 0;
     Ray *parent = 0;
     int recursion_depth;
     sf::Color c1;
@@ -100,39 +101,54 @@ class Ray{
 
                 //process *hit type
                 if (! hit == 0) {
-                    // std::cout << "hit_type of "<< hit <<" : " << hit->get_type() << std::endl;
-                    if (hit->get_type() == "absorb");
+                    SurfaceProperty *sp = hit->get_SurfaceProperty();
+                    if (sp->get_absoprtion_perc() == 1);
+                        // do nothing
+                    else 
+                    {   
+                        double r = std::sqrt(std::pow((double) c2.r, 2)*sp->get_reflection_perc());
+                        double g = std::sqrt(std::pow((double) c2.g, 2)*sp->get_reflection_perc());
+                        double b = std::sqrt(std::pow((double) c2.b, 2)*sp->get_reflection_perc());
+                        sf::Color refl_col = sf::Color(r, g, b);
+                        if(! (refl_col.r<50 && refl_col.g<50 && refl_col.b<50)){
+                            if (sp->get_reflection_perc() > 0){
+                                double incidence = v.get_angle_rad() - (this->v * -1).get_angle_rad();
+                                Vector outsidence = v.Vector_angle_length((this->v * -1).get_angle_rad() + 2*incidence, 1);
+                                // std::cout << "with incidence " << incidence/PI << "PI and vector (" << outsidence.x << ", " << outsidence.y << ") creating new ray." << std::endl;
+                                this->child_reflected = (Ray*)malloc(sizeof(Ray));
+                                *child_reflected = Ray(this->end, outsidence, (this->recursion_depth)+1, this, sf::Color(c2.r*sp->get_reflection_perc(), c2.g*sp->get_reflection_perc(), c2.b*sp->get_reflection_perc()), sf::Color(c2.r*sp->get_reflection_perc(), c2.g*sp->get_reflection_perc(), c2.b*sp->get_reflection_perc()));
+                                child_reflected->trace(pass_on_col_obj);
+                            }
+                        }
+                        
+                        r = std::sqrt(std::pow((double) c2.r, 2)*sp->get_refraction_perc());
+                        g = std::sqrt(std::pow((double) c2.g, 2)*sp->get_refraction_perc());
+                        b = std::sqrt(std::pow((double) c2.b, 2)*sp->get_refraction_perc());
+                        sf::Color refr_col = sf::Color(r, g, b);
+                        if (!(refr_col.r<50 && refr_col.g<50 && refr_col.b<50)){
+                            if (sp->get_refraction_perc() > 0){
+                                if (is_incoming){
+                                    double incidence = PI + v.get_angle_rad() - this->v.get_angle_rad();
+                                    double k = std::max((double)-0.999999, std::min((double)0.999999, 1/hit->get_refraction_index() * std::sin(incidence)));
+                                    double outsidence = std::asin(k);
+                                    // std::cout << "incidence: "<<incidence<<"    outsidence: "<<outsidence<<std::endl;
+                                    Vector refracd = end.Vector_angle_length(PI + v.get_angle_rad() - outsidence, 1);
+                                    this->child_refracted = (Ray*)malloc(sizeof(Ray));
+                                    *child_refracted = Ray(this->end, refracd, (this->recursion_depth)+1, this, refr_col, refr_col);
+                                    child_refracted->trace(pass_on_col_obj);
 
-
-                    else if (hit->get_type() == "reflect"){
-                        double incidence = v.get_angle_rad() - (this->v * -1).get_angle_rad();
-                        Vector outsidence = v.Vector_angle_length((this->v * -1).get_angle_rad() + 2*incidence, 1);
-                        // std::cout << "with incidence " << incidence/PI << "PI and vector (" << outsidence.x << ", " << outsidence.y << ") creating new ray." << std::endl;
-                        this->child = (Ray*)malloc(sizeof(Ray));
-                        *child = Ray(this->end, outsidence, (this->recursion_depth)+1, this, c2, sf::Color(c2.r-18, c2.g-20, c2.b-20));
-                        child->trace(pass_on_col_obj);
-
-
-                    }else if (hit->get_type() == "refract"){
-                        if (is_incoming){
-                            double incidence = PI + v.get_angle_rad() - this->v.get_angle_rad();
-                            double k = std::max((double)-0.999999, std::min((double)0.999999, 1/hit->get_refract_in() * std::sin(incidence)));
-                            double outsidence = std::asin(k);
-                            // std::cout << "incidence: "<<incidence<<"    outsidence: "<<outsidence<<std::endl;
-                            Vector refracd = end.Vector_angle_length(PI + v.get_angle_rad() - outsidence, 1);
-                            this->child = (Ray*)malloc(sizeof(Ray));
-                            *child = Ray(this->end, refracd, (this->recursion_depth)+1, this, c2, sf::Color(c2.r, c2.g-10, c2.b-10));
-                            child->trace(pass_on_col_obj);
-                        } else {
-                            double incidence = (v).get_angle_rad() - this->v.get_angle_rad();
-                            double k = std::max((double)-0.999999, std::min((double)0.999999, hit->get_refract_in() * std::sin(incidence)));
-                            double outsidence =  std::asin(k);
-                            // std::cout << "incidence: "<<incidence/PI<<"Pi    outsidence: "<<outsidence/PI<<"PI    normal angle: "<<v.get_angle_rad()/PI<<"PI"<<std::endl;
-                            Vector refracd = end.Vector_angle_length(v.get_angle_rad() - outsidence, 1);
-                            // std::cout << "refracd: ("<<refracd.x<<", "<<refracd.y<<")   end: ("<<end.x<<", "<<end.y<<")"<<std::endl;
-                            this->child = (Ray*)malloc(sizeof(Ray));
-                            *child = Ray(this->end, refracd, (this->recursion_depth)+1, this, c2, sf::Color(c2.r, c2.g-10, c2.b-10));
-                            child->trace(pass_on_col_obj);
+                                } else {
+                                    double incidence = (v).get_angle_rad() - this->v.get_angle_rad();
+                                    double k = std::max((double)-0.999999, std::min((double)0.999999, hit->get_refraction_index() * std::sin(incidence)));
+                                    double outsidence =  std::asin(k);
+                                    // std::cout << "incidence: "<<incidence/PI<<"Pi    outsidence: "<<outsidence/PI<<"PI    normal angle: "<<v.get_angle_rad()/PI<<"PI"<<std::endl;
+                                    Vector refracd = end.Vector_angle_length(v.get_angle_rad() - outsidence, 1);
+                                    // std::cout << "refracd: ("<<refracd.x<<", "<<refracd.y<<")   end: ("<<end.x<<", "<<end.y<<")"<<std::endl;
+                                    this->child_refracted = (Ray*)malloc(sizeof(Ray));
+                                    *child_refracted = Ray(this->end, refracd, (this->recursion_depth)+1, this, refr_col, refr_col);
+                                    child_refracted->trace(pass_on_col_obj);
+                                }
+                            }
                         }
                     }
                 }
@@ -142,8 +158,11 @@ class Ray{
     };
 
     void draw(sf::RenderWindow &window){
-        if (child != 0){
-            child->draw(window);
+        if (child_reflected != 0){
+            child_reflected->draw(window);
+        }
+        if (child_refracted != 0){
+            child_refracted->draw(window);
         }
         std::array line = line_from_vec(u, end);
         line[0].color = c1;

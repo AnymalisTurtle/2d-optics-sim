@@ -13,15 +13,17 @@ class Wall: public Interactable{
     sf::Color col2;
     Interactable* last_element = 0;
     double refraction_index = 1.6;
+    SurfaceProperty *sp = 0;
 
     public:
-    Wall(Vector p1, Vector p2, Interactable* last, const char* type ="reflect", sf::Color color = sf::Color::White){
+    Wall(Vector p1, Vector p2, Interactable* last, double reflect=1, double refract=0, sf::Color color = sf::Color::White){
         lines = new Line [1];
         lines[0].set_points(p1, p2);
         this->type = type;
         this->col1 = color;
         this->col2 = color;
         this->last_element = last;
+        this->sp = new SurfaceProperty(reflect, refract);
     };
 
     Interactable* get_last_element(){
@@ -56,11 +58,11 @@ class Wall: public Interactable{
         lines->draw_as_primitive(window);
     };
 
-    const char* get_type(){
-        return type;
-    };
+    SurfaceProperty *get_SurfaceProperty(){
+        return sp;
+    }
 
-    double get_refract_in(){
+    double get_refraction_index(){
         return refraction_index;
     }
 
