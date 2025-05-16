@@ -1,6 +1,6 @@
 # 2d-optics-sim
 
-A fun little program to provide a simple 2d simulation for refraction and reflection.
+A little program to provide a simple 2d simulation for refraction and reflection.
 
 ---
 
@@ -13,7 +13,7 @@ Compiling and executing this program requires SFML. Since I do not have any expe
 ## Current State
 
 ![static image showing a point source and a triangle; the rays both reflect and refract from the walls of the triangle](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/surface_properties.png)
-A bsic Surface Property class has been implemented. Walls can now reflact and refract at differing intensities. The brightness of the outgoing ray is calculated by multiplying the incomming brightness with the reflection/refraction amount. 
+A basic Surface Property class has been implemented. Walls can now reflact and refract at differing intensities. The brightness of the outgoing ray is calculated by multiplying the incomming brightness with the reflection/refraction amount. 
 
 ![static image showing a point source interacting with a reflective wall and two refractive polygons: a triangle and a octagon](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/reflection_and_refraction.png)
 Refraction and Reflection have been implemented. The point source can be moved and the rays will be recalculated.
