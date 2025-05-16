@@ -106,11 +106,11 @@ class Ray{
                         // do nothing
                     else 
                     {   
-                        double r = std::sqrt(std::pow((double) c2.r, 2)*sp->get_reflection_perc());
-                        double g = std::sqrt(std::pow((double) c2.g, 2)*sp->get_reflection_perc());
-                        double b = std::sqrt(std::pow((double) c2.b, 2)*sp->get_reflection_perc());
+                        double r = c2.r * sp->get_reflection_perc();//std::sqrt(std::pow((double) c2.r, 2)*sp->get_reflection_perc());
+                        double g = c2.g * sp->get_reflection_perc();//std::sqrt(std::pow((double) c2.g, 2)*sp->get_reflection_perc());
+                        double b = c2.b * sp->get_reflection_perc();//std::sqrt(std::pow((double) c2.b, 2)*sp->get_reflection_perc());
                         sf::Color refl_col = sf::Color(r, g, b);
-                        if(! (refl_col.r<50 && refl_col.g<50 && refl_col.b<50)){
+                        if(! (refl_col.r<30 && refl_col.g<30 && refl_col.b<30)){
                             if (sp->get_reflection_perc() > 0){
                                 double incidence = v.get_angle_rad() - (this->v * -1).get_angle_rad();
                                 Vector outsidence = v.Vector_angle_length((this->v * -1).get_angle_rad() + 2*incidence, 1);
@@ -121,11 +121,11 @@ class Ray{
                             }
                         }
                         
-                        r = std::sqrt(std::pow((double) c2.r, 2)*sp->get_refraction_perc());
-                        g = std::sqrt(std::pow((double) c2.g, 2)*sp->get_refraction_perc());
-                        b = std::sqrt(std::pow((double) c2.b, 2)*sp->get_refraction_perc());
+                        r = c2.r * sp->get_refraction_perc();//std::sqrt(std::pow((double) c2.r, 2)*sp->get_refraction_perc());
+                        g = c2.g * sp->get_refraction_perc();//std::sqrt(std::pow((double) c2.g, 2)*sp->get_refraction_perc());
+                        b = c2.b * sp->get_refraction_perc();// std::sqrt(std::pow((double) c2.b, 2)*sp->get_refraction_perc());
                         sf::Color refr_col = sf::Color(r, g, b);
-                        if (!(refr_col.r<50 && refr_col.g<50 && refr_col.b<50)){
+                        if (!(refr_col.r<30 && refr_col.g<30 && refr_col.b<30)){
                             if (sp->get_refraction_perc() > 0){
                                 if (is_incoming){
                                     double incidence = PI + v.get_angle_rad() - this->v.get_angle_rad();

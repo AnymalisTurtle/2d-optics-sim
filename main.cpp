@@ -31,7 +31,7 @@ int main()
     );
 
     Vector triPoints[] = {a,b,c};
-    Polygon tri(triPoints, 3, &bottom, 0.2, 0.8, sf::Color(200, 200, 255));
+    Polygon tri(triPoints, 3, &bottom, 0.4, 0.6, sf::Color(200, 200, 255));
 
     // Vector octPoints[] = {
     //     Vector(600,800),

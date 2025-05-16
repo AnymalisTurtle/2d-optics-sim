@@ -12,7 +12,10 @@ Compiling and executing this program requires SFML. Since I do not have any expe
 
 ## Current State
 
-![static image showing a point source interacting with w reflective wall and two refractive polygons: a triangle and a octagon](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/reflection_and_refraction.png)
+![static image showing a point source and a triangle; the rays both reflect and refract from the walls of the triangle](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/surface_properties.png)
+A bsic Surface Property class has been implemented. Walls can now reflact and refract at differing intensities. The brightness of the outgoing ray is calculated by multiplying the incomming brightness with the reflection/refraction amount. 
+
+![static image showing a point source interacting with a reflective wall and two refractive polygons: a triangle and a octagon](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/reflection_and_refraction.png)
 Refraction and Reflection have been implemented. The point source can be moved and the rays will be recalculated.
 The Refractive Index is still fixed for all bodies. There is a problem due to the limits of the arcus functions: When the incomming angle of the refraction is very shallow, the multiplication with the refractive index can result in values outside of the function definition. For the time being, this has been resolved by limiting the calculated values. This however causes some weird behaviour at the edges and corners of the bodies. In reality, total internal reflaction would probably occur bevor such a shallow angle is reached -> Investigate this in the future.
 
