@@ -67,14 +67,15 @@ int main()
     // line3.set_color(sf::Color::Green, sf::Color::Red);
     // angleline.set_color(sf::Color::Magenta, sf::Color::Magenta);
 
-
+    int source_x=250;
+    int source_y=520;
     PointSource ps(
         Vector(400, 500),
         30,
         (Interactable*) &tri
     );
     PointSource ps2(
-        Vector(700, 500),
+        Vector(source_x, source_y),
         5,
         (Interactable*) &tri
     );
@@ -87,6 +88,18 @@ int main()
         {
             if (event->is<sf::Event::Closed>())
                 window.close();
+
+            if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
+                {
+                    if (mouseButtonPressed->button == sf::Mouse::Button::Left)
+                    {
+                        // std::cout << "the right button was pressed" << std::endl;
+                        // std::cout << "mouse x: " << mouseButtonPressed->position.x << std::endl;
+                        // std::cout << "mouse y: " << mouseButtonPressed->position.y << std::endl;
+                        source_x = mouseButtonPressed->position.x;
+                        source_y = mouseButtonPressed->position.y;
+                    }
+                }
         }
         
         // ps2 = PointSource(
@@ -96,7 +109,7 @@ int main()
         //     std::sin(dy/10)*2*PI
         // );
         ps2 = PointSource(
-            Vector(250, 520),
+            Vector(source_x, source_y),
             40,
             (Interactable*) &tri,
             std::sin(dy/10)*2*PI
@@ -122,6 +135,7 @@ int main()
         // normal2.draw_as_primitive(window);
         // normal3.draw_as_primitive(window);
         // angleline.draw_as_primitive(window);
+        
         middle.draw(window);
         bottom.draw(window);
         tri.draw(window);
