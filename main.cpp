@@ -6,6 +6,7 @@
 #include "basic_objects\Wall.cpp"
 #include "basic_objects\PointSource.cpp"
 #include "basic_objects\Polygon.cpp"
+#include "basic_objects\Lens.cpp"
 
 
 int main()
@@ -15,6 +16,7 @@ int main()
     settings.antiAliasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode({1000, 1000}), "Get refracted", sf::Style::Default, sf::State::Windowed, settings);
 
+    Interactable * lastInteractable = 0;
 
     Vector a(110, 200);
     Vector b(510, 800);
@@ -32,7 +34,9 @@ int main()
 
     Vector triPoints[] = {a,b,c};
     Polygon tri(triPoints, 3, &bottom, &SurfaceProperty::stdReflect, &SurfaceProperty::stdRefract, sf::Color(200, 200, 255));
+    Lens lens(100, 500, 500, 300, 100, &tri);
 
+    lastInteractable = lens.getPoly();
     // Vector octPoints[] = {
     //     Vector(600,800),
     //     Vector(700,900),
@@ -71,13 +75,13 @@ int main()
     int source_y=520;
     PointSource ps(
         Vector(400, 500),
-        15,
-        (Interactable*) &tri
+        30,
+        lastInteractable
     );
     PointSource ps2(
         Vector(source_x, source_y),
         5,
-        (Interactable*) &tri
+        lastInteractable
     );
 
     double dy =0;
@@ -119,9 +123,12 @@ int main()
         ps2 = PointSource(
             Vector(source_x, source_y),
             5,
-            (Interactable*) &tri,
+            lastInteractable,
             std::sin(dy/10)*2*PI
         );
+
+
+
 
         window.clear();
 
@@ -147,6 +154,7 @@ int main()
         middle.draw(window);
         bottom.draw(window);
         tri.draw(window);
+        lens.draw(window);
         // oct.draw(window);
         window.display();
         dy+=0.00002;

@@ -5,6 +5,8 @@
 #include "Interactable.cpp"
 #include "Util.cpp"
 
+
+#ifndef POLYGON
 class Polygon: public Interactable{
     private:
     Line *lines = 0;
@@ -78,3 +80,5 @@ class Polygon: public Interactable{
     }
 
 };
+#define POLYGON
+#endif
