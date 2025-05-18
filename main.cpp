@@ -81,6 +81,7 @@ int main()
     );
 
     double dy =0;
+    bool moveWithMouse = false;
 
     while (window.isOpen())
     {
@@ -96,10 +97,17 @@ int main()
                         // std::cout << "the right button was pressed" << std::endl;
                         // std::cout << "mouse x: " << mouseButtonPressed->position.x << std::endl;
                         // std::cout << "mouse y: " << mouseButtonPressed->position.y << std::endl;
+                        moveWithMouse = !moveWithMouse;
                         source_x = mouseButtonPressed->position.x;
                         source_y = mouseButtonPressed->position.y;
                     }
                 }
+            if (const auto * mouseMoved = event->getIf<sf::Event::MouseMoved>()){
+                if(moveWithMouse){    
+                    source_x = mouseMoved->position.x;
+                    source_y = mouseMoved->position.y;
+                }
+            }
         }
         
         // ps2 = PointSource(
