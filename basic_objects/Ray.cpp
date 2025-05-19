@@ -93,14 +93,14 @@ class Ray{
                 Vector v = hit_line->get_normal().get_b();
                 double y = (u.x - a.x - (b.x/b.y) * (u.y - a.y)) / (v.y * (b.x/b.y) - v.x);
 
-                double surfaceIncidence;
+                double surfaceIncidence = abs(v.get_angle_rad() - this->v.get_angle_rad()); //angle between ray and wall normal : 0...2PI
+                if (surfaceIncidence > PI/2){surfaceIncidence-=PI/2;}
+                surfaceIncidence = (double)PI/2 - abs(PI/2-surfaceIncidence);
 
                 if (y>0){
                     is_incoming = true;
-                    surfaceIncidence = PI + v.get_angle_rad() - this->v.get_angle_rad();
                 }else{
                     is_incoming = false;
-                    surfaceIncidence = (v).get_angle_rad() - this->v.get_angle_rad();
                 }
 
                 //process *hit type
