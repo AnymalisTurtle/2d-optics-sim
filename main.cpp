@@ -16,9 +16,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode({1000, 1000}), "Get refracted", sf::Style::Default, sf::State::Windowed, settings);
 
 
-    Vector a(310, 400);
-    Vector b(350, 600);
-    Vector c(650, 530);
+    Vector a(110, 200);
+    Vector b(510, 800);
+    Vector c(950, 730);
     Wall middle(
         Vector(500, 950),
         Vector(1000, 1000),
@@ -71,7 +71,7 @@ int main()
     int source_y=520;
     PointSource ps(
         Vector(400, 500),
-        30,
+        15,
         (Interactable*) &tri
     );
     PointSource ps2(
@@ -118,7 +118,7 @@ int main()
         // );
         ps2 = PointSource(
             Vector(source_x, source_y),
-            40,
+            3,
             (Interactable*) &tri,
             std::sin(dy/10)*2*PI
         );
