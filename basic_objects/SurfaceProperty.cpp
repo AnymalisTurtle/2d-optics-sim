@@ -7,14 +7,14 @@ class SurfaceProperty{
         double (*refract)(double);
 
     public:
-        static double stdRefract(double angle){return pow(std::sin(angle),2);}
-        static double stdReflect(double angle){return pow(std::cos(angle),2);}
+        static double stdRefract(double angle){return pow(std::cos(angle),2);}
+        static double stdReflect(double angle){return pow(std::sin(angle),2);}
                     // static double stdRefract(double angle){
                     //     if (angle>PI/4){return 1;}
                     //     else {return 0;}
                     // }
                     // static double stdReflect(double angle){
-                    //     if(angle>PI/2){return 1;}
+                    //     if(angle<0){return 1;}
                     //     else {return 0;}
                     // }
         static double returnOne(double angle){return 1;}

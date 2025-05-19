@@ -118,7 +118,7 @@ int main()
         // );
         ps2 = PointSource(
             Vector(source_x, source_y),
-            3,
+            5,
             (Interactable*) &tri,
             std::sin(dy/10)*2*PI
         );

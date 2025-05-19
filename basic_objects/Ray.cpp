@@ -94,7 +94,7 @@ class Ray{
                 double y = (u.x - a.x - (b.x/b.y) * (u.y - a.y)) / (v.y * (b.x/b.y) - v.x);
 
                 double surfaceIncidence = abs(v.get_angle_rad() - this->v.get_angle_rad()); //angle between ray and wall normal : 0...2PI
-                if (surfaceIncidence > PI/2){surfaceIncidence-=PI/2;}
+                if (surfaceIncidence > PI){surfaceIncidence-=PI;}
                 surfaceIncidence = (double)PI/2 - abs(PI/2-surfaceIncidence);
 
                 if (y>0){
