@@ -19,6 +19,7 @@ class Polygon: public Interactable{
 
     public:
     Polygon(Vector points[], int point_count, Interactable* last, double (*reflect)(double) = &SurfaceProperty::stdReflect, double (*refract)(double) = &SurfaceProperty::stdRefract, sf::Color color = sf::Color::White){
+        // std::cout<<"--------------\ncreating polygon"<<std::endl;
         linecount = point_count;
         lines = new Line [linecount];
         this->last_element = last;
@@ -27,9 +28,11 @@ class Polygon: public Interactable{
         for(int i = 0; i < linecount-1; i++){
             p1 = points[i];
             p2 = points[i+1];
+            // std::cout<<"Drawing line from ("<<p1.x<<", "<<p1.y<<") to ("<<p2.x<<", "<<p2.y<<")"<<std::endl;
             lines[i] = Line(p1, p2);
             lines[i].set_color(color);
         }
+        // std::cout<<"Drawing line from ("<<p2.x<<", "<<p2.y<<") to ("<<points[0].x<<", "<<points[0].y<<")"<<std::endl;
         lines[linecount-1] = Line(p2, points[0]);
         lines[linecount-1].set_color(color);
 
