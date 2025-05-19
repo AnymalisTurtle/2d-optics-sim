@@ -7,8 +7,8 @@ class SurfaceProperty{
         double (*refract)(double);
 
     public:
-        static double stdRefract(double angle){return std::sin(angle);}
-        static double stdReflect(double angle){return std::cos(angle);}
+        static double stdRefract(double angle){return pow(std::sin(angle),2);}
+        static double stdReflect(double angle){return pow(std::cos(angle),2);}
                     // static double stdRefract(double angle){
                     //     if (angle>PI/4){return 1;}
                     //     else {return 0;}
