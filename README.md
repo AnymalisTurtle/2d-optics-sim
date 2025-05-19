@@ -4,8 +4,7 @@ A little program to provide a simple 2d simulation for refraction and reflection
 
 ---
 
-## *Attention!*
-
+## *SFML!*
 
 For Convenience, a Template for the Makefile is included in the repository. Simply change the paths for the respective SFML folders and rename the file to Makefile. Then it should be possible to execute using 'make run' or 'make debug'.
 **MAKE NEEDS TO BE INSTALLED**
@@ -15,6 +14,9 @@ For Convenience, a Template for the Makefile is included in the repository. Simp
 ---
 
 ## Current State
+
+![Video showing a point source being moved, and the rays being refracted by a lensshape](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/lens_demonstartion.mp4)
+A parabolic lensshape can now be created with half-width b and half-length l. The source follows the cursor after a click of the left mouse button. Clicking again sets the source in place. Refraction and Reflection Intesnsity are now dependent on the angle with which they enter. The specific function, after which these amounts are calculated can be passed as an argument when instantiating the Surface Property (the Polygon constructor also takes this argument and passes it along when creating its SurfaceProperty object). A similar setup is in place for the lensshape-function, allowing future expansion to different lens-shapes.
 
 ![static image showing a point source and a triangle; the rays both reflect and refract from the walls of the triangle](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/surface_properties.png)
 A basic Surface Property class has been implemented. Walls can now reflact and refract at differing intensities. The brightness of the outgoing ray is calculated by multiplying the incomming brightness with the reflection/refraction amount. 
