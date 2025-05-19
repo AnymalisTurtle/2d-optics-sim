@@ -38,14 +38,14 @@ class Lens{
             for(int i=0; i<(pointCount/2); i++){
                 *y = l*4 * ((double)i/pointCount- (double)1/4);
                 Vector p = Vector(xFct(*y)+xCenter, *y+yCenter);
-                std::cout<<p.x<<", "<<p.y<<std::endl;
+                // std::cout<<p.x<<", "<<p.y<<std::endl;
                 points[i] = p;
             }
-            std::cout<<"finished first loop in lenscreating"<<std::endl;
+            // std::cout<<"finished first loop in lenscreating"<<std::endl;
             for(int i=0; i<pointCount/2; i++){
                 *y = l*4 * ((double)1/4-(double)i/pointCount);
                 Vector p = Vector(-xFct(*y)+xCenter, *y+yCenter);
-                std::cout<<p.x<<", "<<p.y<<std::endl;
+                // std::cout<<p.x<<", "<<p.y<<std::endl;
                 points[i+pointCount/2] = p;
             }
             delete y;

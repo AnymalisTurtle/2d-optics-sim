@@ -21,20 +21,20 @@ int main()
     Vector a(110, 200);
     Vector b(510, 800);
     Vector c(950, 730);
-    Wall middle(
-        Vector(500, 950),
-        Vector(1000, 1000),
-        0
-    );
-    Wall bottom(
-        Vector(0,800),
-        Vector(500, 950),
-        &middle
-    );
+    // Wall middle(
+    //     Vector(500, 950),
+    //     Vector(1000, 1000),
+    //     0
+    // );
+    // Wall bottom(
+    //     Vector(0,800),
+    //     Vector(500, 950),
+    //     &middle
+    // );
 
-    Vector triPoints[] = {a,b,c};
-    Polygon tri(triPoints, 3, &bottom, &SurfaceProperty::stdReflect, &SurfaceProperty::stdRefract, sf::Color(200, 200, 255));
-    Lens lens(100, 500, 500, 150, 50, &tri);
+    // Vector triPoints[] = {a,b,c};
+    // Polygon tri(triPoints, 3, &bottom, &SurfaceProperty::stdReflect, &SurfaceProperty::stdRefract, sf::Color(200, 200, 255));
+    Lens lens(100, 500, 500, 50, 20, 0);
 
     lastInteractable = lens.getPoly();
     // Vector octPoints[] = {
@@ -122,7 +122,7 @@ int main()
         // );
         ps2 = PointSource(
             Vector(source_x, source_y),
-            5,
+            100,
             lastInteractable,
             std::sin(dy/10)*2*PI
         );
@@ -151,9 +151,9 @@ int main()
         // normal3.draw_as_primitive(window);
         // angleline.draw_as_primitive(window);
         
-        middle.draw(window);
-        bottom.draw(window);
-        tri.draw(window);
+        // middle.draw(window);
+        // bottom.draw(window);
+        // tri.draw(window);
         lens.draw(window);
         // oct.draw(window);
         window.display();
