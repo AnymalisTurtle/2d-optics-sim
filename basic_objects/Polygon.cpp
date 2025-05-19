@@ -16,7 +16,7 @@ class Polygon: public Interactable{
 
 
     public:
-    Polygon(Vector points[], int point_count, Interactable* last, double reflect = 1, double refract = 0, sf::Color color = sf::Color::White){
+    Polygon(Vector points[], int point_count, Interactable* last, double (*reflect)(double) = &SurfaceProperty::stdReflect, double (*refract)(double) = &SurfaceProperty::stdRefract, sf::Color color = sf::Color::White){
         linecount = point_count;
         lines = new Line [linecount];
         this->last_element = last;

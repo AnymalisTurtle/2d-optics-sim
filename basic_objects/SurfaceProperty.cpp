@@ -3,29 +3,35 @@
 
 class SurfaceProperty{
     private:
-        double reflect;
-        double refract;
-        double absorb;
+        double (*reflect)(double);
+        double (*refract)(double);
 
     public:
+        static double stdRefract(double angle){return std::cos(abs(angle));}
+        static double stdReflect(double angle){return std::sin(abs(angle));}
+        static double returnOne(double angle){return 1;}
+        static double returnZero(double angle){return 0;}
     //specify reflaction and refraction amount, absorption calculated to reach 100%
-    SurfaceProperty(double reflect, double refract){
-        this->reflect = reflect;
-        this->refract = refract;
-        this->absorb = 1 - reflect - refract;
-        if (this->absorb<0) this->absorb = 0; 
-    }
+        SurfaceProperty(double  (*reflect)(double), double (*refract)(double)){
+            this->reflect = reflect;
+            this->refract = refract;
+        }
 
-    double get_reflection_perc(){
-        return this->reflect;
-    }
-    
-    double get_refraction_perc(){
-        return this->refract;
-    }
-    double get_absoprtion_perc(){
-        return this->absorb;
-    }
+        double get_reflection_perc(double angle){
+            return this->reflect(angle);
+        }
+        
+        double get_refraction_perc(double angle){
+            return this->refract(angle);
+        }
+        double get_absoprtion_perc(double angle){
+            double absorb = 1 - this->reflect(angle) - this->refract(angle);
+            if (absorb<0){
+                return 0;
+            }else{
+                return absorb;
+            }
+        }
 };
 
 #define SURFACEPROPERTY

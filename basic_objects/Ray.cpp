@@ -93,40 +93,44 @@ class Ray{
                 Vector v = hit_line->get_normal().get_b();
                 double y = (u.x - a.x - (b.x/b.y) * (u.y - a.y)) / (v.y * (b.x/b.y) - v.x);
 
+                double surfaceIncidence;
+
                 if (y>0){
                     is_incoming = true;
+                    surfaceIncidence = PI + v.get_angle_rad() - this->v.get_angle_rad();
                 }else{
                     is_incoming = false;
+                    surfaceIncidence = (v).get_angle_rad() - this->v.get_angle_rad();
                 }
 
                 //process *hit type
                 if (! hit == 0) {
                     SurfaceProperty *sp = hit->get_SurfaceProperty();
-                    if (sp->get_absoprtion_perc() == 1);
+                    if (sp->get_absoprtion_perc(surfaceIncidence) == 1);
                         // do nothing
                     else 
                     {   
-                        double r = c2.r * sp->get_reflection_perc();//std::sqrt(std::pow((double) c2.r, 2)*sp->get_reflection_perc());
-                        double g = c2.g * sp->get_reflection_perc();//std::sqrt(std::pow((double) c2.g, 2)*sp->get_reflection_perc());
-                        double b = c2.b * sp->get_reflection_perc();//std::sqrt(std::pow((double) c2.b, 2)*sp->get_reflection_perc());
+                        double r = c2.r * sp->get_reflection_perc(surfaceIncidence);//std::sqrt(std::pow((double) c2.r, 2)*sp->get_reflection_perc());
+                        double g = c2.g * sp->get_reflection_perc(surfaceIncidence);//std::sqrt(std::pow((double) c2.g, 2)*sp->get_reflection_perc());
+                        double b = c2.b * sp->get_reflection_perc(surfaceIncidence);//std::sqrt(std::pow((double) c2.b, 2)*sp->get_reflection_perc());
                         sf::Color refl_col = sf::Color(r, g, b);
                         if(! (refl_col.r<30 && refl_col.g<30 && refl_col.b<30)){
-                            if (sp->get_reflection_perc() > 0){
+                            if (sp->get_reflection_perc(surfaceIncidence) > 0){
                                 double incidence = v.get_angle_rad() - (this->v * -1).get_angle_rad();
                                 Vector outsidence = v.Vector_angle_length((this->v * -1).get_angle_rad() + 2*incidence, 1);
                                 // std::cout << "with incidence " << incidence/PI << "PI and vector (" << outsidence.x << ", " << outsidence.y << ") creating new ray." << std::endl;
                                 this->child_reflected = (Ray*)malloc(sizeof(Ray));
-                                *child_reflected = Ray(this->end, outsidence, (this->recursion_depth)+1, this, sf::Color(c2.r*sp->get_reflection_perc(), c2.g*sp->get_reflection_perc(), c2.b*sp->get_reflection_perc()), sf::Color(c2.r*sp->get_reflection_perc(), c2.g*sp->get_reflection_perc(), c2.b*sp->get_reflection_perc()));
+                                *child_reflected = Ray(this->end, outsidence, (this->recursion_depth)+1, this, refl_col, refl_col);
                                 child_reflected->trace(pass_on_col_obj);
                             }
                         }
                         
-                        r = c2.r * sp->get_refraction_perc();//std::sqrt(std::pow((double) c2.r, 2)*sp->get_refraction_perc());
-                        g = c2.g * sp->get_refraction_perc();//std::sqrt(std::pow((double) c2.g, 2)*sp->get_refraction_perc());
-                        b = c2.b * sp->get_refraction_perc();// std::sqrt(std::pow((double) c2.b, 2)*sp->get_refraction_perc());
+                        r = c2.r * sp->get_refraction_perc(surfaceIncidence);//std::sqrt(std::pow((double) c2.r, 2)*sp->get_refraction_perc());
+                        g = c2.g * sp->get_refraction_perc(surfaceIncidence);//std::sqrt(std::pow((double) c2.g, 2)*sp->get_refraction_perc());
+                        b = c2.b * sp->get_refraction_perc(surfaceIncidence);// std::sqrt(std::pow((double) c2.b, 2)*sp->get_refraction_perc());
                         sf::Color refr_col = sf::Color(r, g, b);
                         if (!(refr_col.r<30 && refr_col.g<30 && refr_col.b<30)){
-                            if (sp->get_refraction_perc() > 0){
+                            if (sp->get_refraction_perc(surfaceIncidence) > 0){
                                 if (is_incoming){
                                     double incidence = PI + v.get_angle_rad() - this->v.get_angle_rad();
                                     double k = std::max((double)-0.999999, std::min((double)0.999999, 1/hit->get_refraction_index() * std::sin(incidence)));

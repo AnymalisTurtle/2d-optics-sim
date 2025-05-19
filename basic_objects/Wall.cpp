@@ -3,6 +3,7 @@
 
 #include "Vector.cpp"
 #include "Interactable.cpp"
+#include "SurfaceProperty.cpp"
 
 class Wall: public Interactable{
     private:
@@ -16,7 +17,7 @@ class Wall: public Interactable{
     SurfaceProperty *sp = 0;
 
     public:
-    Wall(Vector p1, Vector p2, Interactable* last, double reflect=1, double refract=0, sf::Color color = sf::Color::White){
+    Wall(Vector p1, Vector p2, Interactable* last, double (*reflect)(double) = &SurfaceProperty::returnOne, double(*refract)(double) = &SurfaceProperty::returnZero, sf::Color color = sf::Color::White){
         lines = new Line [1];
         lines[0].set_points(p1, p2);
         this->type = type;
