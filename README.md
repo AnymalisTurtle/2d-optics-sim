@@ -6,10 +6,10 @@ A little program to provide a simple 2d simulation for refraction and reflection
 
 ## *SFML!*
 
+*Compiling and executing this program requires SFML. Since I do not have any experience with SFML yet, I will just direct you to the [Tutorial which I used](https://www.youtube.com/watch?v=rZE700aaT5I).*
+
 For Convenience, a Template for the Makefile is included in the repository. Simply change the paths for the respective SFML folders and rename the file to "Makefile". Then it should be possible to execute using 'make run' or 'make debug'.
 **MAKE NEEDS TO BE INSTALLED**
-
-*Compiling and executing this program requires SFML. Since I do not have any experience with SFML yet, I will just direct you to the [Tutorial which I used](https://www.youtube.com/watch?v=rZE700aaT5I).*
 
 ---
 
