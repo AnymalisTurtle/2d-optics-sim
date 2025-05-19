@@ -1,5 +1,6 @@
 #include "Polygon.cpp"
 #include "Vector.cpp"
+#include "SurfaceProperty.cpp"
 
 
 #ifndef LENS
@@ -27,7 +28,7 @@ class Lens{
                 std::cout<<p.x<<", "<<p.y<<std::endl;
                 points[i] = p;
             }
-            this->poly = new Polygon(points, pointCount, last, reflect, refract, color);
+            this->poly = new Polygon(points, pointCount, last, SurfaceProperty::stdReflect, SurfaceProperty::stdRefract, color);
             std::cout<<"created polygon"<< std::endl;
         };
 
