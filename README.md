@@ -23,7 +23,7 @@ typedef std::function<double(double)> shapeFct;
 typedef std::function<shapeFct(double,double)> shapeFctFct;
 ```
 
-The lens constructor takes a Function of type ```shapeFctFct``` as an argument with the default value ```Lens::convexParabolic```. Together with the doubles b and l which are also passed to the constructor the respective ```shapeFct``` is created and stored inside the Lens class. This means that creating Lenses of different shapes only requires writing the corresponding ```shapeFctFct```.
+The lens constructor takes a Function of type ```shapeFctFct``` as an argument with the default value ```Lens::convexParabolic```. Together with the ```doubles b``` and ```l``` which are also passed to the constructor the respective ```shapeFct``` is created and stored inside the Lens class. This means that creating Lenses of different shapes only requires writing the corresponding ```shapeFctFct```.
 
 ## Development History
 
