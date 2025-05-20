@@ -34,10 +34,14 @@ int main()
 
     // Vector triPoints[] = {a,b,c};
     // Polygon tri(triPoints, 3, &bottom, &SurfaceProperty::stdReflect, &SurfaceProperty::stdRefract, sf::Color(200, 200, 255));
-    Lens lens(500, 500, 500, 50, 20, 0, 0, Lens::concaveParabolic);
-    Lens lens2(500, 300, 500, 50, 20, lens.getPoly(), (double)PI/8);
+    Lens lens(300, 300+20+2, 500, 50, 20, 0, 0, Lens::concaveParabolic);
+    Lens lens2(300, 300, 500, 50, 20, lens.getPoly());
+    Lens lens3(300, 400+20+2, 500, 50, 20, lens2.getPoly(), 0, Lens::concaveParabolic);
+    Lens lens4(300, 400, 500, 50, 20, lens3.getPoly());
+    Lens lens5(300, 600-20-2, 500, 50, 20, lens4.getPoly(), 0, Lens::concaveParabolic);
+    Lens lens6(300, 600, 500, 50, 20, lens5.getPoly());
 
-    lastInteractable = lens2.getPoly();
+    lastInteractable = lens6.getPoly();
     // Vector octPoints[] = {
     //     Vector(600,800),
     //     Vector(700,900),
@@ -157,7 +161,11 @@ int main()
         // tri.draw(window);
         lens.draw(window);
         lens2.draw(window);
+        lens3.draw(window);
+        lens4.draw(window);
+        lens5.draw(window);
+        lens6.draw(window);
         window.display();
-        dy+=0.00002;
+        // dy+=0.00002;
     }
 }
