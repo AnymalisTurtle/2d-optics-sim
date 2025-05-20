@@ -15,6 +15,14 @@ For Convenience, a Template for the Makefile is included in the repository. Simp
 
 ## Current State
 
+![A point source emitting rays towards a rotated convex and a unrotated concave Lens](https:://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/rotated_Lens.png) Introducing: Lens, rotated! Vectors now have a function ```void rotate(double angle)``` which rotates the Vector by an angle. The argument phi for the Lens constructor now has a function. The lens polygon is now created like this:
+1. calculate raw point from the ```shapeFct``` (stored as a Vector object)
+1. rotate the resulting vector
+1. get the sum of the vector calculated before and the vector to the centerpoint of the lens (given in the constructer arguments)
+1. after iterating over all points, call the Polygon constructor and pass the Array of Vectors
+
+## Development History
+
 ![A point source sending rays which get refrected first by a convex Lens and then by a concave Lens](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/convex_concave.png)
 Concave lenses have been added. The shape of the lens is determined by a lambda function x(y), which is created by a helper function. For this purpose custom types have been introduced:
 
@@ -24,8 +32,6 @@ typedef std::function<shapeFct(double,double)> shapeFctFct;
 ```
 
 The lens constructor takes a Function of type ```shapeFctFct``` as an argument with the default value ```Lens::convexParabolic```. Together with the ```doubles b``` and ```l``` which are also passed to the constructor the respective ```shapeFct``` is created and stored inside the Lens class. This means that creating Lenses of different shapes only requires writing the corresponding ```shapeFctFct```.
-
-## Development History
 
 ![Video showing a point source being moved, and the rays being refracted by a lensshape](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/lens_demonstration.mp4)
 A parabolic lensshape can now be created with half-width b and half-length l. The source follows the cursor after a click of the left mouse button. Clicking again sets the source in place. Refraction and Reflection Intesnsity are now dependent on the angle with which they enter. The specific function, after which these amounts are calculated can be passed as an argument when instantiating the Surface Property (the Polygon constructor also takes this argument and passes it along when creating its SurfaceProperty object). A similar setup is in place for the lensshape-function, allowing future expansion to different lens-shapes.
