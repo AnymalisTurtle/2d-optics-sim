@@ -35,8 +35,9 @@ int main()
     // Vector triPoints[] = {a,b,c};
     // Polygon tri(triPoints, 3, &bottom, &SurfaceProperty::stdReflect, &SurfaceProperty::stdRefract, sf::Color(200, 200, 255));
     Lens lens(200, 500, 500, 50, 20, 0);
+    Lens lens2(200, 300, 500, 50, 20, lens.getPoly());
 
-    lastInteractable = lens.getPoly();
+    lastInteractable = lens2.getPoly();
     // Vector octPoints[] = {
     //     Vector(600,800),
     //     Vector(700,900),
@@ -155,7 +156,7 @@ int main()
         // bottom.draw(window);
         // tri.draw(window);
         lens.draw(window);
-        // oct.draw(window);
+        lens2.draw(window);
         window.display();
         dy+=0.00002;
     }

@@ -25,6 +25,7 @@ class Interactable{
     virtual Interactable* get_last_element() = 0;
     virtual double get_refraction_index() = 0;
     virtual SurfaceProperty* get_SurfaceProperty() = 0;
+    virtual void draw(sf::RenderWindow &window) = 0;
 
 };
 #define INTERACTABLE
