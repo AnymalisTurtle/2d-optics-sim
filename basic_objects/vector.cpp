@@ -12,6 +12,7 @@ class Vector{
     double z;
     bool is2d;
 
+
 //Constructors
     Vector(double x_init, double y_init, double z_init){
         this->x = x_init;
@@ -82,6 +83,13 @@ class Vector{
             std::cerr << "cannot unit zero-vector!";
         }
     };
+
+    void rotate(double angle){
+        double xPrime = this->x*std::cos(angle) + this->y*std::sin(angle);
+        double yPrime = -this->x*std::sin(angle) + this->y*std::cos(angle);
+        Vector Prime(xPrime, yPrime);
+        *this = Prime;
+    }
 
     Vector Vector_angle_length(double angle_rad, double length){
         Vector vec;

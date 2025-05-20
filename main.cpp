@@ -35,7 +35,7 @@ int main()
     // Vector triPoints[] = {a,b,c};
     // Polygon tri(triPoints, 3, &bottom, &SurfaceProperty::stdReflect, &SurfaceProperty::stdRefract, sf::Color(200, 200, 255));
     Lens lens(500, 500, 500, 50, 20, 0, 0, Lens::concaveParabolic);
-    Lens lens2(500, 300, 500, 50, 20, lens.getPoly());
+    Lens lens2(500, 300, 500, 50, 20, lens.getPoly(), (double)PI/8);
 
     lastInteractable = lens2.getPoly();
     // Vector octPoints[] = {

@@ -14,6 +14,7 @@ class Lens{
         double yCenter;
         double l;
         double b;
+        double phi;
         Polygon *poly = 0;
         shapeFct *xFct = new shapeFct;
     public:
@@ -40,21 +41,27 @@ class Lens{
             this->yCenter = yCenter;
             this->l = l;
             this->b = b;
+            this->phi = phi;
             *this->xFct = funcGen(b, l);
             while (pointCount%4 != 0) pointCount++; //ensure divisibility by 4
 
             Vector * points = new Vector[pointCount];
+            Vector pCenter = Vector(xCenter, yCenter);
             double *y = new double;
             for(int i=0; i<(pointCount/2); i++){
                 *y = l*4 * ((double)i/pointCount- (double)1/4);
-                Vector p = Vector((*xFct)(*y)+xCenter, *y+yCenter);
+                Vector p = Vector((*xFct)(*y), *y);
+                p.rotate(phi);
+                p = p + pCenter;
                 // std::cout<<p.x<<", "<<p.y<<std::endl;
                 points[i] = p;
             }
             // std::cout<<"finished first loop in lenscreating"<<std::endl;
             for(int i=0; i<pointCount/2; i++){
                 *y = l*4 * ((double)1/4-(double)i/pointCount);
-                Vector p = Vector(-(*xFct)(*y)+xCenter, *y+yCenter);
+                Vector p = Vector(-(*xFct)(*y), *y);
+                p.rotate(phi);
+                p = p + pCenter;
                 // std::cout<<p.x<<", "<<p.y<<std::endl;
                 points[i+pointCount/2] = p;
             }
