@@ -15,7 +15,8 @@ For Convenience, a Template for the Makefile is included in the repository. Simp
 
 ## Current State
 
-![A point source emitting rays towards a rotated convex and a unrotated concave Lens](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/rotated_Lens.png) Introducing: Lens, rotated! Vectors now have a function ```void rotate(double angle)``` which rotates the Vector by an angle. The argument phi for the Lens constructor now has a function. The lens polygon is now created like this:
+![A point source emitting rays towards a rotated convex and a unrotated concave Lens](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/rotated_Lens.png) **Introducing: Lens, rotated!**\
+Vectors now have a function ```void rotate(double angle)``` which rotates the Vector by an angle. The argument phi for the Lens constructor now has a function. The lens polygon is now created like this:
 1. calculate raw point from the ```shapeFct``` (stored as a Vector object)
 1. rotate the resulting vector
 1. get the sum of the vector calculated before and the vector to the centerpoint of the lens (given in the constructer arguments)
