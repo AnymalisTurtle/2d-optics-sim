@@ -15,6 +15,11 @@ For Convenience, a Template for the Makefile is included in the repository. Simp
 
 ## Current State
 
+![A point source emitting rays towards a rotated convex and a unrotated concave Lens](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/parallelSource.png)
+Sources can now be removed by right clicking while moving them. Parallel sources have been added.
+
+## Development History
+
 When clicking the left mouse button to move a source, now the closest source is selected. Scrolling while moving a source rotates it. Clicking the right mousebutton creates a new pointsource in the place of the mouse cursor.
 For this purpose Emitters are now also stored as a linked list. The handling of the linked lists has been slightly adjusted for Emitters and Interactables:
 
@@ -51,8 +56,6 @@ Functions have been introduced to draw all elements of the two linked lists auto
 void drawEmitters(Emitter *, sf::RenderWindow&);
 void drawInteractables(Interactable *, sf::RenderWindow&);
 ```
-
-## Development History
 
 ![A point source emitting rays towards a rotated convex and a unrotated concave Lens](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/rotated_Lens.png) **Introducing: Lens, rotated!**\
 Vectors now have a function ```void rotate(double angle)``` which rotates the Vector by an angle. The argument phi for the Lens constructor now has a function. The lens polygon is now created like this:
