@@ -10,6 +10,7 @@
 #include "basic_objects\Emitter.cpp"
 
 Emitter * getClosestEmitter(Emitter *, Vector);
+void drawEmitters(Emitter *, sf::RenderWindow&);
 
 int main()
 {
@@ -138,6 +139,9 @@ int main()
                     source_y = mouseButtonPressed->position.y;
                     activeSource = getClosestEmitter(*lastEmitter, Vector(source_x, source_y));
                 }
+                if (mouseButtonPressed->button == sf::Mouse::Button::Right){
+                    new PointSource(Vector(mouseButtonPressed->position.x, mouseButtonPressed->position.y), 30, lastInteractable, lastEmitter);
+                }
             }
             if (const auto * mouseMoved = event->getIf<sf::Event::MouseMoved>()){
                 if(moveWithMouse){    
@@ -160,8 +164,8 @@ int main()
 /*#####################################################
 ~~~~~~~~~~~~~~~~~~~~DRAWING SOURCES~~~~~~~~~~~~~~~~~~~~
 #####################################################*/
-        ps->draw(window);
-        ps2->draw(window);
+        
+        drawEmitters(*lastEmitter, window);
 
         if(moveWithMouse && activeSource!=0){
             activeSource->move(Vector(
@@ -212,4 +216,11 @@ Emitter * getClosestEmitter(Emitter * last_emitter, Vector point){
     }
     std::cout<<"closest Emitter found to be: "<<closest<<std::endl;
     return closest;
+}
+
+void drawEmitters(Emitter* last_em, sf::RenderWindow &window){
+    while (last_em != 0){
+        last_em->draw(window);
+        last_em = last_em->getLast();
+    }
 }
