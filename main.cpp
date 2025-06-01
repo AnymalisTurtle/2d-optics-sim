@@ -8,10 +8,12 @@
 #include "basic_objects\Polygon.cpp"
 #include "basic_objects\Lens.cpp"
 #include "basic_objects\Emitter.cpp"
+#include "basic_objects\ParallelSource.cpp"
 
 Emitter * getClosestEmitter(Emitter *, Vector);
 void drawEmitters(Emitter *, sf::RenderWindow&);
 void drawInteractables(Interactable *, sf::RenderWindow&);
+void freeMem(Emitter *, Interactable *);
 
 int main()
 {
@@ -113,6 +115,13 @@ int main()
     );
     std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
     std::cout<<"lastEmitter: "<<lastEmitter<<" *lastEmitter: "<<*lastEmitter<<std::endl;
+    ParallelSource * parallel = new ParallelSource(
+        Vector(100, 600),
+        30,
+        50,
+        lastInteractable,
+        lastEmitter
+    );
 
     double dy =0;
     bool moveWithMouse = false;
@@ -123,8 +132,7 @@ int main()
         {
             if (event->is<sf::Event::Closed>())
                 {
-                // delete ps;
-                // delete ps2;
+                freeMem(*lastEmitter, *lastInteractable);
                 window.close();
                 }
 
@@ -141,7 +149,8 @@ int main()
                     activeSource = getClosestEmitter(*lastEmitter, Vector(source_x, source_y));
                 }
                 if (mouseButtonPressed->button == sf::Mouse::Button::Right){
-                    new PointSource(Vector(mouseButtonPressed->position.x, mouseButtonPressed->position.y), 30, lastInteractable, lastEmitter);
+                    if (!moveWithMouse) new PointSource(Vector(mouseButtonPressed->position.x, mouseButtonPressed->position.y), 30, lastInteractable, lastEmitter);
+                    else ;
                 }
             }
             if (const auto * mouseMoved = event->getIf<sf::Event::MouseMoved>()){
@@ -224,5 +233,18 @@ void drawInteractables(Interactable* last_Inter, sf::RenderWindow &window){
     while (last_Inter != 0){
         last_Inter->draw(window);
         last_Inter = last_Inter->get_last_element();
+    }
+}
+
+void freeMem(Emitter* last_em, Interactable* last_Inter){
+    while (last_em != 0){
+        Emitter * prev_em = last_em;
+        last_em = last_em->getLast();
+        delete prev_em;
+    }
+    while (last_Inter != 0){
+        Interactable * prev_Inter = last_Inter;
+        last_Inter = last_Inter->get_last_element();
+        delete prev_Inter;
     }
 }

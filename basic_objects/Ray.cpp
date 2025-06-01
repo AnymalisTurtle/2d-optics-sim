@@ -5,6 +5,8 @@
 #include "Line.cpp"
 #include "Interactable.cpp"
 
+
+#ifndef RAY
 class Ray{
     private:
     Vector u;
@@ -176,3 +178,5 @@ class Ray{
 
     };
 };
+#define RAY
+#endif

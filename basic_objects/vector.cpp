@@ -91,7 +91,7 @@ class Vector{
         *this = Prime;
     }
 
-    Vector Vector_angle_length(double angle_rad, double length){
+    static Vector Vector_angle_length(double angle_rad, double length){
         Vector vec;
         while (angle_rad >= PI*2) {angle_rad -= PI*2;};
         while (angle_rad < 0) {angle_rad += PI*2;};
