@@ -47,6 +47,11 @@ r.trace(*(this->obj_ptr));
 
 Functions have been introduced to draw all elements of the two linked lists automatically.
 
+```cpp
+void drawEmitters(Emitter *, sf::RenderWindow&);
+void drawInteractables(Interactable *, sf::RenderWindow&);
+```
+
 ## Development History
 
 ![A point source emitting rays towards a rotated convex and a unrotated concave Lens](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/rotated_Lens.png) **Introducing: Lens, rotated!**\
