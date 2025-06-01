@@ -11,6 +11,7 @@
 
 Emitter * getClosestEmitter(Emitter *, Vector);
 void drawEmitters(Emitter *, sf::RenderWindow&);
+void drawInteractables(Interactable *, sf::RenderWindow&);
 
 int main()
 {
@@ -190,12 +191,7 @@ int main()
         // middle.draw(window);
         // bottom.draw(window);
         // tri.draw(window);
-        lens.draw(window);
-        lens2.draw(window);
-        lens3.draw(window);
-        lens4.draw(window);
-        lens5.draw(window);
-        lens6.draw(window);
+        drawInteractables(*lastInteractable, window);
         window.display();
         // dy+=0.00002;
     }
@@ -222,5 +218,11 @@ void drawEmitters(Emitter* last_em, sf::RenderWindow &window){
     while (last_em != 0){
         last_em->draw(window);
         last_em = last_em->getLast();
+    }
+}
+void drawInteractables(Interactable* last_Inter, sf::RenderWindow &window){
+    while (last_Inter != 0){
+        last_Inter->draw(window);
+        last_Inter = last_Inter->get_last_element();
     }
 }

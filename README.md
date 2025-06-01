@@ -15,14 +15,34 @@ For Convenience, a Template for the Makefile is included in the repository. Simp
 
 ## Current State
 
+When clicking the left mouse button to move a source, now the closest source is selected. Scrolling while moving a source rotates it. Clicking the right mousebutton creates a new pointsource in the place of the mouse cursor.
+For this purpose Emitters are now also stored as a linked list. The handling of the linked lists has been slightly adjusted for Emitters and Interactables:
+
+```cpp
+Interactable ** lastInteractable = new Interactable*;
+*lastInteractable = 0;
+Emitter ** lastEmitter = new Emitter*;
+*lastEmitter = 0;
+```
+
+Using a double pointer allows to pass the same ```**Interactable``` to all functions. The actual object that ```*lastInteractable``` points to can be changed without having to pass anything. When a function requires the current last Element, the double pointer is dereferenced and this way the current pointer to the last Element is retrieved. E.g.:
+
+```cpp
+Interactable ** obj_ptr;
+(...)
+r.trace(*(this->obj_ptr));
+```
+
+Functions have been introduced to draw all elements of the two linked lists automatically.
+
+## Development History
+
 ![A point source emitting rays towards a rotated convex and a unrotated concave Lens](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/rotated_Lens.png) **Introducing: Lens, rotated!**\
 Vectors now have a function ```void rotate(double angle)``` which rotates the Vector by an angle. The argument phi for the Lens constructor now has a function. The lens polygon is now created like this:
 1. calculate raw point from the ```shapeFct``` (stored as a Vector object)
 1. rotate the resulting vector
 1. get the sum of the vector calculated before and the vector to the centerpoint of the lens (given in the constructer arguments)
 1. after iterating over all points, call the Polygon constructor and pass the Array of Vectors
-
-## Development History
 
 ![A point source sending rays which get refrected first by a convex Lens and then by a concave Lens](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/convex_concave.png)
 Concave lenses have been added. The shape of the lens is determined by a lambda function x(y), which is created by a helper function. For this purpose custom types have been introduced:
