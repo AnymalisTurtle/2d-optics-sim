@@ -25,7 +25,19 @@ Emitter ** lastEmitter = new Emitter*;
 *lastEmitter = 0;
 ```
 
-Using a double pointer allows to pass the same ```**Interactable``` to all functions. The actual object that ```*lastInteractable``` points to can be changed without having to pass anything. When a function requires the current last Element, the double pointer is dereferenced and this way the current pointer to the last Element is retrieved. E.g.:
+Using a double pointer allows to pass the same ```**Interactable``` to all functions. The actual object that ```*lastInteractable``` points to can be changed without having to pass anything.
+The Polygons constructor changes to:
+
+```cpp
+Polygon(..., Interactable **last, ...){
+    (...)
+    this->last_element = *last;
+    *last = this;
+    (...)
+}
+```
+
+When a function requires the current last Element, the double pointer is dereferenced and this way the current pointer to the last Element is retrieved. E.g.:
 
 ```cpp
 Interactable ** obj_ptr;
