@@ -86,6 +86,7 @@ int main()
     std::cout<<"\ncreating sources...\n";
     int source_x=250;
     int source_y=520;
+    double source_angle = 0;
     PointSource * ps = new PointSource(
         Vector(400, 500),
         30,
@@ -96,7 +97,7 @@ int main()
         Vector(source_x, source_y),
         5,
         lastInteractable,
-        0,
+        source_angle,
         500, 
         sf::Color::Blue
     );
@@ -117,22 +118,26 @@ int main()
                 }
 
 
-            if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
+            if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()){
+                if (mouseButtonPressed->button == sf::Mouse::Button::Left)
                 {
-                    if (mouseButtonPressed->button == sf::Mouse::Button::Left)
-                    {
-                        // std::cout << "the right button was pressed" << std::endl;
-                        // std::cout << "mouse x: " << mouseButtonPressed->position.x << std::endl;
-                        // std::cout << "mouse y: " << mouseButtonPressed->position.y << std::endl;
-                        moveWithMouse = !moveWithMouse;
-                        source_x = mouseButtonPressed->position.x;
-                        source_y = mouseButtonPressed->position.y;
-                    }
+                    // std::cout << "the right button was pressed" << std::endl;
+                    // std::cout << "mouse x: " << mouseButtonPressed->position.x << std::endl;
+                    // std::cout << "mouse y: " << mouseButtonPressed->position.y << std::endl;
+                    moveWithMouse = !moveWithMouse;
+                    source_x = mouseButtonPressed->position.x;
+                    source_y = mouseButtonPressed->position.y;
                 }
+            }
             if (const auto * mouseMoved = event->getIf<sf::Event::MouseMoved>()){
                 if(moveWithMouse){    
                     source_x = mouseMoved->position.x;
                     source_y = mouseMoved->position.y;
+                }
+            }
+            if (const auto * mouseWheeled = event->getIf<sf::Event::MouseWheelScrolled>()){
+                if(moveWithMouse){
+                    source_angle -= mouseWheeled->delta / 10;
                 }
             }
         }
@@ -151,7 +156,7 @@ int main()
         ps2->move(Vector(
             source_x,
             source_y
-        ), 0);
+        ), source_angle);
 
 /*#####################################################
 ~~~~~~~~~~~~~~~~~~~~DRAWING SHAPES~~~~~~~~~~~~~~~~~~~~~
