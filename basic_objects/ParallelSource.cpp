@@ -15,6 +15,7 @@ class ParallelSource : public Emitter{
     Ray * rays = 0;
     sf::Color color;
     Interactable ** obj_ptr;
+    Emitter ** em_ptr;
     Emitter * last_em = 0;
 
     void reTrace(){
@@ -43,6 +44,7 @@ class ParallelSource : public Emitter{
         this->ray_length = length_of_rays;
         this->color = col;
         this->obj_ptr = obj;
+        this->em_ptr = em;
         this->last_em = *em;
         *em = this;
         std::cout<<"creating PLS ("<<this<<") with last_emitter: "<<this->last_em<<std::endl;
@@ -79,6 +81,37 @@ class ParallelSource : public Emitter{
     Emitter * getLast(){
         return last_em;
     }
+
+    void setLast(Emitter * newLast){
+        this->last_em = newLast;
+    }
+
+    // returns the element in unlinke direction = element added earlier
+    Emitter * getPrevious(){
+        Emitter *prev = *(this->em_ptr);
+        Emitter *current = prev->getLast();
+        
+        if (prev == this) return 0;
+        while(current != this){
+            prev = current;
+            current = current->getLast();
+        }
+        return prev;
+    }
+
+    void remove(){
+        //special case: is latest element in list -> change entry pointer
+        if (*(this->em_ptr) == this){
+            *(this->em_ptr) = this->last_em;
+        }
+        else{
+            Emitter * prev = this->getPrevious();
+            prev->setLast(this->getLast());
+            this->setLast(0); //just for safety
+        }
+        delete this;
+    }
+
 };
 #define PARALLELSOURCE
 #endif

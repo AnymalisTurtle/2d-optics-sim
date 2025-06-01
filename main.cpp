@@ -150,7 +150,11 @@ int main()
                 }
                 if (mouseButtonPressed->button == sf::Mouse::Button::Right){
                     if (!moveWithMouse) new PointSource(Vector(mouseButtonPressed->position.x, mouseButtonPressed->position.y), 30, lastInteractable, lastEmitter);
-                    else ;
+                    else{
+                        activeSource->remove();
+                        activeSource = 0;
+                        moveWithMouse = false;
+                    }
                 }
             }
             if (const auto * mouseMoved = event->getIf<sf::Event::MouseMoved>()){
