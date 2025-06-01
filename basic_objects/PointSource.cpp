@@ -1,9 +1,11 @@
 #include <SFML/Graphics.hpp>
 
+#include "Emitter.cpp"
 #include "Line.cpp"
 #include "Ray.cpp"
 
-class PointSource{
+#ifndef POINTSOURCE
+class PointSource : public Emitter{
     private:
     Vector origin;
     double angle;
@@ -12,6 +14,7 @@ class PointSource{
     Ray * rays = 0;
     sf::Color color;
     Interactable ** obj_ptr;
+    Emitter * last_em = 0;
 
     void reTrace(){
         // std::cout<<"retracing with *obj: "<<*(this->obj_ptr)<<std::endl;
@@ -31,13 +34,16 @@ class PointSource{
 
 
     public:
-    PointSource(Vector origin, int number_of_rays, Interactable ** obj, double angle = 0, double length_of_rays = 500, sf::Color col = sf::Color(255, 255, 255)){
+    PointSource(Vector origin, int number_of_rays, Interactable ** obj, Emitter ** em, double angle = 0, double length_of_rays = 500, sf::Color col = sf::Color(255, 255, 255)){
         this->origin = origin;
         this->angle = angle;
         this->ray_count = number_of_rays;
         this->ray_length = length_of_rays;
         this->color = col;
         this->obj_ptr = obj;
+        this->last_em = *em;
+        *em = this;
+        std::cout<<"creating PS ("<<this<<") with last_emitter: "<<this->last_em<<std::endl;
         // std::cout<<"nnumber of rays: "<<number_of_rays<<", ray_count: "<<this->ray_count<<std::endl;
         this->reTrace();
         // std::cout<<"finished ps constructor ("<< this <<")\n";
@@ -62,5 +68,15 @@ class PointSource{
                 this->rays[i].draw(window);
             }
         }
-    };
+    }
+
+    Vector getPosition(){
+        return origin;
+    }
+
+    Emitter * getLast(){
+        return last_em;
+    }
 };
+#define POINTSOURCE
+#endif

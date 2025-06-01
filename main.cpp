@@ -7,7 +7,9 @@
 #include "basic_objects\PointSource.cpp"
 #include "basic_objects\Polygon.cpp"
 #include "basic_objects\Lens.cpp"
+#include "basic_objects\Emitter.cpp"
 
+Emitter * getClosestEmitter(Emitter *, Vector);
 
 int main()
 {
@@ -18,6 +20,8 @@ int main()
 
     Interactable ** lastInteractable = new Interactable*;
     *lastInteractable = 0;
+    Emitter ** lastEmitter = new Emitter*;
+    *lastEmitter = 0;
 
     Vector a(110, 200);
     Vector b(510, 800);
@@ -87,21 +91,26 @@ int main()
     int source_x=250;
     int source_y=520;
     double source_angle = 0;
+    Emitter *activeSource = 0;
     PointSource * ps = new PointSource(
         Vector(400, 500),
         30,
-        lastInteractable
+        lastInteractable,
+        lastEmitter
     );
     std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
+    std::cout<<"lastEmitter: "<<lastEmitter<<" *lastEmitter: "<<*lastEmitter<<std::endl;
     PointSource * ps2 = new PointSource(
         Vector(source_x, source_y),
-        5,
+        100,
         lastInteractable,
+        lastEmitter,
         source_angle,
         500, 
-        sf::Color::Blue
+        sf::Color(230, 230, 255)
     );
     std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
+    std::cout<<"lastEmitter: "<<lastEmitter<<" *lastEmitter: "<<*lastEmitter<<std::endl;
 
     double dy =0;
     bool moveWithMouse = false;
@@ -112,8 +121,8 @@ int main()
         {
             if (event->is<sf::Event::Closed>())
                 {
-                delete ps;
-                delete ps2;
+                // delete ps;
+                // delete ps2;
                 window.close();
                 }
 
@@ -127,6 +136,7 @@ int main()
                     moveWithMouse = !moveWithMouse;
                     source_x = mouseButtonPressed->position.x;
                     source_y = mouseButtonPressed->position.y;
+                    activeSource = getClosestEmitter(*lastEmitter, Vector(source_x, source_y));
                 }
             }
             if (const auto * mouseMoved = event->getIf<sf::Event::MouseMoved>()){
@@ -137,7 +147,7 @@ int main()
             }
             if (const auto * mouseWheeled = event->getIf<sf::Event::MouseWheelScrolled>()){
                 if(moveWithMouse){
-                    source_angle -= mouseWheeled->delta / 10;
+                    source_angle += mouseWheeled->delta / 100;
                 }
             }
         }
@@ -153,10 +163,12 @@ int main()
         ps->draw(window);
         ps2->draw(window);
 
-        ps2->move(Vector(
-            source_x,
-            source_y
-        ), source_angle);
+        if(moveWithMouse && activeSource!=0){
+            activeSource->move(Vector(
+                source_x,
+                source_y
+            ), source_angle);
+        }
 
 /*#####################################################
 ~~~~~~~~~~~~~~~~~~~~DRAWING SHAPES~~~~~~~~~~~~~~~~~~~~~
@@ -183,4 +195,21 @@ int main()
         window.display();
         // dy+=0.00002;
     }
+}
+
+Emitter * getClosestEmitter(Emitter * last_emitter, Vector point){
+    double min_distance = -1;
+    Emitter * closest = 0;
+    while (last_emitter!=0){
+        std::cout<<"checking distance of Emitter "<<last_emitter<<std::endl;
+        Vector vec = last_emitter->getPosition();
+        double distance = (point-vec).length();
+        if (distance < min_distance || min_distance < 0){
+            min_distance = distance;
+            closest = last_emitter;
+        }
+        last_emitter = last_emitter->getLast();
+    }
+    std::cout<<"closest Emitter found to be: "<<closest<<std::endl;
+    return closest;
 }
