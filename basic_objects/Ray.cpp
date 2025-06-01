@@ -39,6 +39,7 @@ class Ray{
         Interactable *hit = 0;
         Line *hit_line = 0;
         while (coll_obj != 0){
+            // std::cout<<"tracing with coll_obj: "<<coll_obj<<std::endl;
             for (int i=0; i<coll_obj->get_linecount(); i++){
                 Line *l = coll_obj->get_line(i);
                 Vector a = l->get_a();

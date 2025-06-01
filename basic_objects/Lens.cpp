@@ -36,7 +36,7 @@ class Lens{
             else {return 0;}
         }
 
-        Lens(int pointCount, double xCenter, double yCenter, double l, double b, Interactable * last, double phi=0, shapeFctFct funcGen = Lens::convexParabolic, double (*reflect)(double) = &Lens::lensReflect, double (*refract)(double) = &Lens::lensRefract, sf::Color color = sf::Color::Red){
+        Lens(int pointCount, double xCenter, double yCenter, double l, double b, Interactable ** last, double phi=0, shapeFctFct funcGen = Lens::convexParabolic, double (*reflect)(double) = &Lens::lensReflect, double (*refract)(double) = &Lens::lensRefract, sf::Color color = sf::Color::Red){
             this->xCenter = xCenter;
             this->yCenter = yCenter;
             this->l = l;

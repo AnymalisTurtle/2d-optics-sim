@@ -16,7 +16,8 @@ int main()
     settings.antiAliasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode({1000, 1000}), "Get refracted", sf::Style::Default, sf::State::Windowed, settings);
 
-    Interactable * lastInteractable = 0;
+    Interactable ** lastInteractable = new Interactable*;
+    *lastInteractable = 0;
 
     Vector a(110, 200);
     Vector b(510, 800);
@@ -34,14 +35,20 @@ int main()
 
     // Vector triPoints[] = {a,b,c};
     // Polygon tri(triPoints, 3, &bottom, &SurfaceProperty::stdReflect, &SurfaceProperty::stdRefract, sf::Color(200, 200, 255));
-    Lens lens(300, 300+20+2, 500, 50, 20, 0, 0, Lens::concaveParabolic);
-    Lens lens2(300, 300, 500, 50, 20, lens.getPoly());
-    Lens lens3(300, 400+20+2, 500, 50, 20, lens2.getPoly(), 0, Lens::concaveParabolic);
-    Lens lens4(300, 400, 500, 50, 20, lens3.getPoly());
-    Lens lens5(300, 600-20-2, 500, 50, 20, lens4.getPoly(), 0, Lens::concaveParabolic);
-    Lens lens6(300, 600, 500, 50, 20, lens5.getPoly());
+    std::cout<<"creating lenses...\n";
+    Lens lens(300, 300+20+2, 500, 50, 20, lastInteractable, 0, Lens::concaveParabolic);
+    std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
+    Lens lens2(300, 300, 500, 50, 20, lastInteractable);
+    std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
+    Lens lens3(300, 400+20+2, 500, 50, 20, lastInteractable, 0, Lens::concaveParabolic);
+    std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
+    Lens lens4(300, 400, 500, 50, 20, lastInteractable);
+    std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
+    Lens lens5(300, 600-20-2, 500, 50, 20, lastInteractable, 0, Lens::concaveParabolic);
+    std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
+    Lens lens6(300, 600, 500, 50, 20, lastInteractable);
+    std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
 
-    lastInteractable = lens6.getPoly();
     // Vector octPoints[] = {
     //     Vector(600,800),
     //     Vector(700,900),
@@ -76,18 +83,24 @@ int main()
     // line3.set_color(sf::Color::Green, sf::Color::Red);
     // angleline.set_color(sf::Color::Magenta, sf::Color::Magenta);
 
+    std::cout<<"\ncreating sources...\n";
     int source_x=250;
     int source_y=520;
-    PointSource ps(
+    PointSource * ps = new PointSource(
         Vector(400, 500),
         30,
         lastInteractable
     );
-    PointSource ps2(
+    std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
+    PointSource * ps2 = new PointSource(
         Vector(source_x, source_y),
         5,
-        lastInteractable
+        lastInteractable,
+        0,
+        500, 
+        sf::Color::Blue
     );
+    std::cout<<"lastInteractable: "<<lastInteractable<<" *lastInteractable: "<<*lastInteractable<<std::endl;
 
     double dy =0;
     bool moveWithMouse = false;
@@ -97,7 +110,12 @@ int main()
         while (const std::optional event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
+                {
+                delete ps;
+                delete ps2;
                 window.close();
+                }
+
 
             if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
                 {
@@ -119,19 +137,6 @@ int main()
             }
         }
         
-        // ps2 = PointSource(
-        //     Vector(450+160*std::cos(dy), 600+150*std::sin(dy)),
-        //     20,
-        //     (Interactable*) &oct,
-        //     std::sin(dy/10)*2*PI
-        // );
-        ps2 = PointSource(
-            Vector(source_x, source_y),
-            300,
-            lastInteractable,
-            std::sin(dy/10)*2*PI
-        );
-
 
 
 
@@ -140,8 +145,8 @@ int main()
 /*#####################################################
 ~~~~~~~~~~~~~~~~~~~~DRAWING SOURCES~~~~~~~~~~~~~~~~~~~~
 #####################################################*/
-       // ps.draw(window);
-        ps2.draw(window);
+        ps->draw(window);
+        ps2->draw(window);
 
 /*#####################################################
 ~~~~~~~~~~~~~~~~~~~~DRAWING SHAPES~~~~~~~~~~~~~~~~~~~~~
