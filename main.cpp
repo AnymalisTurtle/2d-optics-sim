@@ -215,6 +215,7 @@ int main()
 /*#####################################################
 ~~~~~~~~~~~~~~~~~~~~DRAWING TEXT~~~~~~~~~~~~~~~~~~~~~~~
 #####################################################*/
+        //adjusting text based on current selection/mode
         if(moveWithMouse){
             std::stringstream ttText;
             ttText << activeSource->getType() << " selected (" << activeSource << ")";
@@ -227,12 +228,16 @@ int main()
 
 
         selection.setCharacterSize(24);
+        //alligning the text on the bottom: window height - text height - margin
         selection.setPosition(sf::Vector2f(5, window.getSize().y-24-5));
         selection.setFillColor(sf::Color::Magenta);
         tooltip.setCharacterSize(24);
-        tooltip.setPosition(sf::Vector2f(window.getSize().x - tooltip.getLocalBounds().size.x -5, window.getSize().y -24 -5));
+        //alligning the text on the right edge: window_width - text_width - margin
+        tooltip.setPosition(sf::Vector2f(window.getSize().x - tooltip.getLocalBounds().size.x -5, 
+                                        window.getSize().y -24 -5));
         tooltip.setFillColor(sf::Color::Cyan);
 
+        //splitting the selection strings into two lines, if both strings are too close (replace first " " with "\n")
         if(tooltip.getLocalBounds().size.x + selection.getLocalBounds().size.x + 20 > window.getSize().x){
             std::string helper = selection.getString();
             int spacePos = helper.find(" ");
