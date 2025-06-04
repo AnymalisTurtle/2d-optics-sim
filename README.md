@@ -19,7 +19,7 @@ For Convenience, a Template for the Makefile is included in the repository. Simp
 
 ![Some Text being displayed that nothing is selected, left-click: select | right-click: create a source](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/noSelectUI.png)
 ![Text indicates the type of source that has been selected, left-click: set down | scroll: rotate | right-click: remove](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/PLSSelectUI.png)
-Basic UI additions: There is no text at the bottom of the screen. It indicates what type of source is selected (Bottom left) and what actions can be performed (Bottom right).
+Basic UI additions: There is now text at the bottom of the screen. It indicates which type of source is selected (Bottom left) and what actions can be performed (Bottom right).
 
 ## Development History
 
