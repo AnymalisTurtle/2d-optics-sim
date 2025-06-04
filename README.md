@@ -15,13 +15,18 @@ For Convenience, a Template for the Makefile is included in the repository. Simp
 
 ## Current State
 
+### Edit Mode
+
+![Screenshot showing the UI in the new edit mode: controls to rotate, change number of rays, change size and change type of source](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/editModeUI.png)
+An edit mode has been added, which has controls to rotate the source, change its number of ray, its size and its type (Point-/Parallel-). The mode is entered by pressing 'E' when moving a source. To signal the change the source cannot be moved in edit mode. It is left with enter, after which the **move mode is NOT reenabled**. This control sheme feels a bit akward and may be subject to change.
+
+## Development History
+
 ### Simple UI (tooltip)
 
 ![Some Text being displayed that nothing is selected, left-click: select | right-click: create a source](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/noSelectUI.png)
 ![Text indicates the type of source that has been selected, left-click: set down | scroll: rotate | right-click: remove](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/PLSSelectUI.png)
 Basic UI additions: There is now text at the bottom of the screen. It indicates which type of source is selected (Bottom left) and what actions can be performed (Bottom right).
-
-## Development History
 
 ### Dynamically removing sources, Parallel source
 

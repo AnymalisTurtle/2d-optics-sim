@@ -242,7 +242,7 @@ int main()
             std::stringstream ttText;
             ttText << activeSource->getType() << " selected\n(" << activeSource << ")";
             selection.setString(ttText.str());
-            tooltip.setString("left-click: set source down | scroll: rotate | right-click: remove | E: edit source");
+            tooltip.setString("left-click: set in place | scroll: rotate | right-click: remove | E: edit source");
         } else if (editingSource){
             std::stringstream ttText;
             ttText << activeSource->getType() << " selected\n(" << activeSource << ")";
@@ -254,7 +254,7 @@ int main()
             }
         } else {
             selection.setString("-/-");
-            tooltip.setString("left-click: select and move | right-click: create a source");
+            tooltip.setString("left-click: select | right-click: create new source");
         }
 
 
