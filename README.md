@@ -15,10 +15,18 @@ For Convenience, a Template for the Makefile is included in the repository. Simp
 
 ## Current State
 
-![A point source emitting rays towards a rotated convex and a unrotated concave Lens](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/parallelSource.png)
-Sources can now be removed by right clicking while moving them. Parallel sources have been added.
+### Simple UI (tooltip)
+
+![Some Text being displayed that nothing is selected, left-click: select | right-click: create a source](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/noSelectUI.png)
+![Text indicates the type of source that has been selected, left-click: set down | scroll: rotate | right-click: remove](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/PLSSelectUI.png)
+Basic UI additions: There is no text at the bottom of the screen. It indicates what type of source is selected (Bottom left) and what actions can be performed (Bottom right).
 
 ## Development History
+
+### Dynamically removing sources, Parallel source
+
+![A parallel source emitting rays through a series of convex and concave lenses](https://github.com/AnymalisTurtle/2d-optics-sim/blob/main/media/parallelSource.png)
+Sources can now be removed by right clicking while moving them. Parallel sources have been added.
 
 ### Rotate Sources, create sources, automatic drawing functions
 
