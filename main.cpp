@@ -9,7 +9,7 @@
 #include "basic_objects\Lens.cpp"
 #include "basic_objects\Emitter.cpp"
 #include "basic_objects\ParallelSource.cpp"
-#include <string>
+#include <sstream>
 
 Emitter * getClosestEmitter(Emitter *, Vector);
 void drawEmitters(Emitter *, sf::RenderWindow&);
@@ -215,9 +215,16 @@ int main()
 ~~~~~~~~~~~~~~~~~~~~DRAWING TEXT~~~~~~~~~~~~~~~~~~~~~~~
 #####################################################*/
         if(moveWithMouse){
-            std::string ttText = std::string("Source selected ({") + activeSource + "})";
-            tooltip.setString(ttText);
+            std::stringstream ttText;
+            ttText << "Source selected (" << activeSource << ")";
+            tooltip.setString(ttText.str());
+        } else {
+            tooltip.setString("-/-");
         }
+
+        tooltip.setCharacterSize(24);
+        tooltip.setFillColor(sf::Color::Magenta);
+        window.draw(tooltip);
         
         window.display();
         // dy+=0.00002;
