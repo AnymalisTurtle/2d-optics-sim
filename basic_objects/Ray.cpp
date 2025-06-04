@@ -60,7 +60,7 @@ class Ray{
                     }else{
                         x = (u.y - a.y + y * v.y) / b.y;
                     }
-                    if (x>0 && x<1){
+                    if (x>=0 && x<1){
                         //intersection!
                         //only store this if it is closer (=x smaller then previous hits) but the hit is also suff. away (avoid hitting same obstacle multiple times)
                         if ((y_hit < 0 || y<y_hit) && (this->v*y).length()>2){
