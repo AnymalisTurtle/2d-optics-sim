@@ -91,6 +91,21 @@ class PointSource : public Emitter{
         return this->angle;
     }
 
+    int getRaycount(){
+        return this->ray_count;
+    }
+
+    double getWidth(){
+        return 0;
+    }
+    void setWidth(double w){
+    }
+
+    void setRaycount(int rc){
+        this->ray_count=rc;
+        this->reTrace();
+    }
+
     void setLast(Emitter * newLast){
         this->last_em = newLast;
     }

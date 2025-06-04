@@ -64,6 +64,9 @@ int main()
     int source_x=250;
     int source_y=520;
     double source_angle = 0;
+    double source_raycount = 5;
+    double source_size = 0;
+    std::string source_type ="";
     Emitter *activeSource = 0;
     PointSource * ps = new PointSource(
         Vector(400, 500),
@@ -93,11 +96,20 @@ int main()
     );
 
     bool moveWithMouse = false; //flag shows if source is selected and to be effected by mouse movements
+    bool editingSource = false; //flag shows if edit mode is enabled
+
+    bool alt=false; bool ctrl=false; bool shift=false;
 
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())
         {
+            if(editingSource){ //update modifiers when in edit mode
+                    alt = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LAlt) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RAlt);
+                    ctrl = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl);
+                    shift = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RShift);
+                }
+
             if (event->is<sf::Event::Closed>())
                 {
                 // freeMem(*lastEmitter, *lastInteractable);
@@ -108,20 +120,26 @@ int main()
             if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()){
                 if (mouseButtonPressed->button == sf::Mouse::Button::Left)
                 {
-                    moveWithMouse = !moveWithMouse; //enables/disables the active source following the cursor
-                    source_x = mouseButtonPressed->position.x; //jump source to cursor, otherwise: left-click apparently doesn't do anything until mous is moved
-                    source_y = mouseButtonPressed->position.y;
-                    activeSource = getClosestEmitter(*lastEmitter, Vector(source_x, source_y)); //find the source closest to cursor
-                    source_angle = activeSource->getAngle(); //"reset" angle change; prevent sudden rotation of source upon selection
+                    if (!editingSource){
+                        moveWithMouse = !moveWithMouse; //enables/disables the active source following the cursor
+                        source_x = mouseButtonPressed->position.x; //jump source to cursor, otherwise: left-click apparently doesn't do anything until mous is moved
+                        source_y = mouseButtonPressed->position.y;
+                        activeSource = getClosestEmitter(*lastEmitter, Vector(source_x, source_y)); //find the source closest to cursor
+                        source_angle = activeSource->getAngle(); //"reset" angle change; prevent sudden rotation of source upon selection
+                    }
+                    
                 }
                 if (mouseButtonPressed->button == sf::Mouse::Button::Right){
-                    //when not in the move mode, a new source should be created, otherwise the current source should be removed
-                    if (!moveWithMouse) new PointSource(Vector(mouseButtonPressed->position.x, mouseButtonPressed->position.y), 30, lastInteractable, lastEmitter);
                     //pointsource constructor automatically handles adding to the linke list
-                    else{
+                    if(moveWithMouse){
                         activeSource->remove(); //handles removal from linked list and deletion of object
                         activeSource = 0; //nullptr for memory saftey
                         moveWithMouse = false; //exit move mode, as no source is selected anymore
+                    } else if(editingSource){
+
+                    } else {
+                        //when not in the move mode, a new source should be created, otherwise the current source should be removed
+                        new PointSource(Vector(mouseButtonPressed->position.x, mouseButtonPressed->position.y), 30, lastInteractable, lastEmitter);
                     }
                 }
             }
@@ -136,6 +154,56 @@ int main()
                 //only necessary when moving a source
                 if(moveWithMouse){
                     source_angle += mouseWheeled->delta / 100; // factor 1/100 arbitrary
+                }
+                if(editingSource){
+                    if(ctrl){ //change raycount
+                        source_raycount -= mouseWheeled->delta;
+                        source_raycount = (source_raycount>0 ? source_raycount : 1);
+                        activeSource->setRaycount(source_raycount);
+                    } else if (shift){
+                        if(source_type=="ParallelSource"){
+                            source_size -= mouseWheeled->delta * 10;
+                            activeSource->setWidth(source_size);
+                        }
+                    } else {
+                        source_angle += mouseWheeled->delta / 100;
+                    }
+                }
+            }
+
+            if (const auto * keyPressed = event->getIf<sf::Event::KeyPressed>()){
+                if(moveWithMouse && activeSource!= 0){
+                    if (keyPressed->code == sf::Keyboard::Key::E){
+                        //enter edit mode for active source
+                        editingSource = true;
+                        moveWithMouse = false;
+                        source_raycount = activeSource->getRaycount();
+                        source_type = activeSource->getType();
+                        if(source_type=="ParallelSource"){
+                            source_size = activeSource->getWidth();
+                        }
+                    }
+                }
+                else if (editingSource){
+                    if (keyPressed->code == sf::Keyboard::Key::Enter){
+                        moveWithMouse = false;
+                        editingSource = false;
+                        activeSource = 0;
+                    } else if (keyPressed->code == sf::Keyboard::Key::Tab){
+                        if (ctrl) {
+                            //change source type
+                            if (source_type == "ParallelSource"){
+                                activeSource->remove();
+                                activeSource = new PointSource(Vector(source_x,source_y),source_raycount, lastInteractable, lastEmitter,source_angle);
+                                source_type = "PointSource";
+                            } else if (source_type == "PointSource"){
+                                activeSource->remove();
+                                if (source_size == 0) source_size = 10;
+                                activeSource = new ParallelSource(Vector(source_x,source_y), source_raycount, source_size, lastInteractable, lastEmitter, source_angle);
+                                source_type = "ParallelSource";
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -154,6 +222,8 @@ int main()
                 source_x,
                 source_y
             ), source_angle);
+        } else if (editingSource && activeSource != 0){
+            activeSource->move(activeSource->getPosition(), source_angle);
         }
 
         drawEmitters(*lastEmitter, window);
@@ -170,9 +240,18 @@ int main()
         //adjusting text based on current selection/mode
         if(moveWithMouse){
             std::stringstream ttText;
-            ttText << activeSource->getType() << " selected (" << activeSource << ")";
+            ttText << activeSource->getType() << " selected\n(" << activeSource << ")";
             selection.setString(ttText.str());
-            tooltip.setString("left-click: set source down | scroll: rotate | right-click: remove");
+            tooltip.setString("left-click: set source down | scroll: rotate | right-click: remove | E: edit source");
+        } else if (editingSource){
+            std::stringstream ttText;
+            ttText << activeSource->getType() << " selected\n(" << activeSource << ")";
+            selection.setString(ttText.str());
+            if (source_type == "ParallelSource"){
+                tooltip.setString("scroll: rotate | ctrl+scroll: raycount | shift+scroll: width | ctrl+tab: change source-type | Enter: Exit Edit Menu");
+            } else {
+                tooltip.setString("scroll: rotate | ctrl+scroll: raycount | ctrl+tab: change source-type | Enter: Exit Edit Menu");
+            }
         } else {
             selection.setString("-/-");
             tooltip.setString("left-click: select and move | right-click: create a source");
@@ -181,21 +260,22 @@ int main()
 
         selection.setCharacterSize(24);
         //alligning the text on the bottom: window height - text height - margin
-        selection.setPosition(sf::Vector2f(5, window.getSize().y-24-5));
+        selection.setPosition(sf::Vector2f(5, window.getSize().y -selection.getLocalBounds().size.y -selection.getCharacterSize()/2 -5));
         selection.setFillColor(sf::Color::Magenta);
         tooltip.setCharacterSize(24);
         //alligning the text on the right edge: window_width - text_width - margin
         tooltip.setPosition(sf::Vector2f(window.getSize().x - tooltip.getLocalBounds().size.x -5, 
-                                        window.getSize().y -24 -5));
+                                        window.getSize().y -tooltip.getLocalBounds().size.y -tooltip.getCharacterSize()/2 -5));
         tooltip.setFillColor(sf::Color::Cyan);
 
-        //splitting the selection strings into two lines, if both strings are too close (replace first " " with "\n")
+        //splitting the tooltip strings into two lines, if both strings are too close (replace first " | " with "\n")
         if(tooltip.getLocalBounds().size.x + selection.getLocalBounds().size.x + 20 > window.getSize().x){
-            std::string helper = selection.getString();
-            int spacePos = helper.find(" ");
-            helper = helper.replace(spacePos, 1, "\n");
-            selection.setString(helper);
-            selection.setPosition(sf::Vector2f(5, window.getSize().y-24*2-5));
+            std::string helper = tooltip.getString();
+            int spacePos = helper.find(" | ", helper.size()/2-1);
+            helper = helper.replace(spacePos, 3, "\n");
+            tooltip.setString(helper);
+            tooltip.setPosition(sf::Vector2f(window.getSize().x - tooltip.getLocalBounds().size.x -5, 
+                                            window.getSize().y -tooltip.getLocalBounds().size.y -tooltip.getCharacterSize()/2 -5));
         }
 
 

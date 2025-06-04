@@ -20,6 +20,10 @@ class Emitter{
     virtual void draw(sf::RenderWindow&) = 0;
     virtual void remove() = 0;
     virtual std::string getType() = 0;
+    virtual int getRaycount() = 0;
+    virtual void setRaycount(int) = 0;
+    virtual double getWidth() = 0;
+    virtual void setWidth(double) = 0;
 };
 #define EMITTER
 #endif

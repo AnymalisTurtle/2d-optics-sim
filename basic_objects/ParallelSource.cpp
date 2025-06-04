@@ -92,6 +92,24 @@ class ParallelSource : public Emitter{
         return this->angle;
     }
 
+    int getRaycount(){
+        return this->ray_count;
+    }
+
+    double getWidth(){
+        return this->width;
+    }
+
+    void setWidth(double w){
+        this->width = w;
+        this->reTrace();
+    }
+
+    void setRaycount(int rc){
+        this->ray_count=rc;
+        this->reTrace();
+    }
+
     void setLast(Emitter * newLast){
         this->last_em = newLast;
     }
