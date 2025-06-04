@@ -22,6 +22,9 @@ int main()
     settings.antiAliasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode({1000, 1000}), "Get refracted", sf::Style::Default, sf::State::Windowed, settings);
 
+    sf::Font dotMatrix("media/fonts/DOTMATRI.ttf");
+    sf::Font sevSeg("media/fonts/digital-7.ttf");
+
     Interactable ** lastInteractable = new Interactable*;
     *lastInteractable = 0;
     Emitter ** lastEmitter = new Emitter*;
