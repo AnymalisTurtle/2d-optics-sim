@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <string>
 
 #include "Emitter.cpp"
 #include "Line.cpp"
@@ -16,6 +17,8 @@ class PointSource : public Emitter{
     Interactable ** obj_ptr;
     Emitter ** em_ptr;
     Emitter * last_em = 0;
+    std::string type = "PointSource";
+
 
     void reTrace(){
         // std::cout<<"retracing with *obj: "<<*(this->obj_ptr)<<std::endl;
@@ -78,6 +81,10 @@ class PointSource : public Emitter{
 
     Emitter * getLast(){
         return last_em;
+    }
+
+    std::string getType(){
+        return this->type;
     }
 
     void setLast(Emitter * newLast){

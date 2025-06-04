@@ -25,6 +25,7 @@ int main()
 
     sf::Font dotMatrix("media/fonts/DOTMATRI.ttf");
     sf::Font sevSeg("media/fonts/digital-7.ttf");
+    sf::Text selection(sevSeg);
     sf::Text tooltip(sevSeg);
 
     Interactable ** lastInteractable = new Interactable*;
@@ -216,15 +217,32 @@ int main()
 #####################################################*/
         if(moveWithMouse){
             std::stringstream ttText;
-            ttText << "Source selected (" << activeSource << ")";
-            tooltip.setString(ttText.str());
+            ttText << activeSource->getType() << " selected (" << activeSource << ")";
+            selection.setString(ttText.str());
+            tooltip.setString("left-click: set source down | scroll: rotate | right-click: remove");
         } else {
-            tooltip.setString("-/-");
+            selection.setString("-/-");
+            tooltip.setString("left-click: select and move | right-click: create a source");
         }
 
+
+        selection.setCharacterSize(24);
+        selection.setPosition(sf::Vector2f(5, window.getSize().y-24-5));
+        selection.setFillColor(sf::Color::Magenta);
         tooltip.setCharacterSize(24);
-        tooltip.setPosition(sf::Vector2f(5, window.getSize().y-24-5));
-        tooltip.setFillColor(sf::Color::Magenta);
+        tooltip.setPosition(sf::Vector2f(window.getSize().x - tooltip.getLocalBounds().size.x -5, window.getSize().y -24 -5));
+        tooltip.setFillColor(sf::Color::Cyan);
+
+        if(tooltip.getLocalBounds().size.x + selection.getLocalBounds().size.x + 20 > window.getSize().x){
+            std::string helper = selection.getString();
+            int spacePos = helper.find(" ");
+            helper = helper.replace(spacePos, 1, "\n");
+            selection.setString(helper);
+            selection.setPosition(sf::Vector2f(5, window.getSize().y-24*2-5));
+        }
+
+
+        window.draw(selection);
         window.draw(tooltip);
         
         window.display();

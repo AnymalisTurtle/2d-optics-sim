@@ -1,9 +1,11 @@
+#include <string>
 
 #include "Vector.cpp"
 
 #ifndef EMITTER
 class Emitter{
     private:
+    std::string type;
 
     public:
     Emitter(){
@@ -16,7 +18,7 @@ class Emitter{
     virtual void setLast(Emitter*) = 0;
     virtual void draw(sf::RenderWindow&) = 0;
     virtual void remove() = 0;
-    
+    virtual std::string getType() = 0;
 };
 #define EMITTER
 #endif
