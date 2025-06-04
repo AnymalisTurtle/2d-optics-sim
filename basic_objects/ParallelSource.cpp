@@ -88,6 +88,10 @@ class ParallelSource : public Emitter{
         return this->type;
     }
 
+    double getAngle(){
+        return this->angle;
+    }
+
     void setLast(Emitter * newLast){
         this->last_em = newLast;
     }
