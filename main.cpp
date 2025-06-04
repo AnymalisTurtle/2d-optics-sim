@@ -9,6 +9,7 @@
 #include "basic_objects\Lens.cpp"
 #include "basic_objects\Emitter.cpp"
 #include "basic_objects\ParallelSource.cpp"
+#include <string>
 
 Emitter * getClosestEmitter(Emitter *, Vector);
 void drawEmitters(Emitter *, sf::RenderWindow&);
@@ -24,6 +25,7 @@ int main()
 
     sf::Font dotMatrix("media/fonts/DOTMATRI.ttf");
     sf::Font sevSeg("media/fonts/digital-7.ttf");
+    sf::Text tooltip(sevSeg);
 
     Interactable ** lastInteractable = new Interactable*;
     *lastInteractable = 0;
@@ -208,6 +210,15 @@ int main()
         // bottom.draw(window);
         // tri.draw(window);
         drawInteractables(*lastInteractable, window);
+
+/*#####################################################
+~~~~~~~~~~~~~~~~~~~~DRAWING TEXT~~~~~~~~~~~~~~~~~~~~~~~
+#####################################################*/
+        if(moveWithMouse){
+            std::string ttText = std::string("Source selected ({") + activeSource + "})";
+            tooltip.setString(ttText);
+        }
+        
         window.display();
         // dy+=0.00002;
     }
