@@ -16,6 +16,7 @@ class Emitter{
     virtual void setLast(Emitter*) = 0;
     virtual void draw(sf::RenderWindow&) = 0;
     virtual void remove() = 0;
+    
 };
 #define EMITTER
 #endif

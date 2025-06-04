@@ -223,6 +223,7 @@ int main()
         }
 
         tooltip.setCharacterSize(24);
+        tooltip.setPosition(sf::Vector2f(5, window.getSize().y-24-5));
         tooltip.setFillColor(sf::Color::Magenta);
         window.draw(tooltip);
         
