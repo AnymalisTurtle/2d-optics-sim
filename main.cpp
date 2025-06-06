@@ -154,13 +154,14 @@ int main()
                 //only necessary when moving a source
                 if(moveWithMouse){
                     source_angle += mouseWheeled->delta / 100; // factor 1/100 arbitrary
-                }
+                } else 
                 if(editingSource){
                     if(ctrl){ //change raycount
-                        source_raycount -= mouseWheeled->delta;
+                        source_raycount += mouseWheeled->delta;
                         source_raycount = (source_raycount>0 ? source_raycount : 1);
                         activeSource->setRaycount(source_raycount);
-                    } else if (shift){
+                    } else 
+                    if (shift){
                         if(source_type=="ParallelSource"){
                             source_size -= mouseWheeled->delta * 10;
                             activeSource->setWidth(source_size);
